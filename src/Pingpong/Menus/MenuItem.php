@@ -1,6 +1,6 @@
 <?php namespace Pingpong\Menus;
 
-use Illuminate\Support\Facades\HTML;
+use Illuminate\Html\HtmlFacade as HTML;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Contracts\Support\Arrayable as ArrayableContract;
