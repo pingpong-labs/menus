@@ -65,9 +65,12 @@ class MenusServiceProvider extends ServiceProvider {
      */
     protected function registerNamespaces()
     {
+    	// config
         $configPath = __DIR__.'/../../../src/config/config.php';
         $this->mergeConfigFrom($configPath, 'menus');
         $this->publishes([$configPath => config_path('menus.php')]);
+        // views
+	    $this->loadViewsFrom(__DIR__.'/../../../views', 'menus');
     }
 
 	/**
