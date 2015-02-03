@@ -70,7 +70,7 @@ class MenusServiceProvider extends ServiceProvider {
         $this->mergeConfigFrom($configPath, 'menus');
         $this->publishes([$configPath => config_path('menus.php')]);
         // views
-	    $this->loadViewsFrom(__DIR__.'/../../../views', 'menus');
+	    $this->loadViewsFrom(__DIR__.'/../../../src/views', 'menus');
     }
 
 	/**
