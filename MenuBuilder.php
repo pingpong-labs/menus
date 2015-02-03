@@ -2,7 +2,7 @@
 
 use Illuminate\Config\Repository;
 
-class Builder implements \Countable {
+class MenuBuilder implements \Countable {
     
 	/**
 	 * Menu name.

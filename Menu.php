@@ -30,11 +30,11 @@ class Menu implements Countable {
 	 * Make new menu.
 	 *
 	 * @param  string $name 
-	 * @return \Pingpong\Menus\Builder
+	 * @return \Pingpong\Menus\MenuBuilder
 	 */
 	public function make($name)
 	{
-		$builder = new Builder($name, $this->config);
+		$builder = new MenuBuilder($name, $this->config);
 
         $this->menus[$name] = $builder;
 
@@ -46,7 +46,7 @@ class Menu implements Countable {
 	 *
      * @param  string $name
      * @param  Callable $resolver
-     * @return \Pingpong\Menus\Builder
+     * @return \Pingpong\Menus\MenuBuilder
 	 */
 	public function create($name, Closure $resolver)
 	{
