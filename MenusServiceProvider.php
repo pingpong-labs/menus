@@ -18,6 +18,7 @@ class MenusServiceProvider extends ServiceProvider {
      */
     public function boot()
     {
+        $this->registerNamespaces();
         $this->requireMenusFile();
     }
 
@@ -38,9 +39,10 @@ class MenusServiceProvider extends ServiceProvider {
      */
     public function register()
     {
-        $this->registerComponent();
-
-        $this->registerNamespaces();
+        $this->app['menus'] = $this->app->share(function ($app)
+        {
+            return new Menu($app['view'], $app['config']);
+        });
     }
 
     /**
@@ -65,21 +67,11 @@ class MenusServiceProvider extends ServiceProvider {
 
         $this->publishes([
             __DIR__ . '/src/config/config.php' => config_path('menus.php'),
-            __DIR__ . '/src/views' => base_path('resources/views/vendor/menus'),
-        ]);
-    }
+        ], 'config');
 
-    /**
-     * Register package's component.
-     *
-     * @return void
-     */
-    protected function registerComponent()
-    {
-        $this->app['menus'] = $this->app->share(function ($app)
-        {
-            return new Menu($app['view'], $app['config']);
-        });
+        $this->publishes([
+            __DIR__ . '/src/views' => base_path('resources/views/vendor/pingpong/menus'),
+        ], 'views');
     }
 
 }
