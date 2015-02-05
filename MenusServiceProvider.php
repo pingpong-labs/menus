@@ -19,7 +19,6 @@ class MenusServiceProvider extends ServiceProvider {
     public function boot()
     {
         $this->registerNamespaces();
-        $this->requireMenusFile();
     }
 
     /**
