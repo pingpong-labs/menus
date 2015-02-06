@@ -241,6 +241,8 @@ class MenuBuilder implements Countable {
     public function destroy()
     {
         $this->items = array();
+
+        return $this;
     }
 
     /**
