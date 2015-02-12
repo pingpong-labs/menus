@@ -47,7 +47,7 @@ class MenusServiceProvider extends ServiceProvider {
 
 	/**
 	 * Register package service.
-	 * 
+	 *
 	 * @return void
 	 */
 	protected function registerServices()
@@ -57,16 +57,16 @@ class MenusServiceProvider extends ServiceProvider {
         	return new Menu($app['view'], $app['config']);
         });
 	}
-    
+
     /**
      * Register package's namespaces.
-     * 
+     *
      * @return void
      */
     protected function registerNamespaces()
     {
     	// config
-        $configPath = __DIR__.'/../../../src/config/config.php';
+        $configPath = __DIR__.'/../../../src/config/styles.php';
         $this->mergeConfigFrom($configPath, 'menus');
         $this->publishes([$configPath => config_path('menus.php')]);
         // views
