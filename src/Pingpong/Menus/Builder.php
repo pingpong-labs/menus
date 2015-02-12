@@ -3,7 +3,7 @@
 use Illuminate\Config\Repository;
 
 class Builder implements \Countable {
-    
+
 	/**
 	 * Menu name.
 	 *
@@ -45,8 +45,8 @@ class Builder implements \Countable {
 
     /**
      * Set styles.
-     * 
-     * @param array $styles 
+     *
+     * @param array $styles
      */
     public function setStyles(array $styles)
     {
@@ -102,12 +102,12 @@ class Builder implements \Countable {
 
     /**
      * Get style aliases.
-     * 
-     * @return mixed 
+     *
+     * @return mixed
      */
     public function getStyles()
     {
-        return $this->styles ?: $this->config->get('menus::styles');
+        return $this->styles ?: $this->config->get('menus.styles');
     }
 
     /**
@@ -223,8 +223,8 @@ class Builder implements \Countable {
 
     /**
      * Get items count.
-     * 
-     * @return int 
+     *
+     * @return int
      */
     public function count()
     {
@@ -233,8 +233,8 @@ class Builder implements \Countable {
 
     /**
      * Empty the current menu items.
-     * 
-     * @return void 
+     *
+     * @return void
      */
     public function destroy()
     {

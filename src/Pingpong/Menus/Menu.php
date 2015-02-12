@@ -16,20 +16,20 @@ class Menu implements Countable {
 
 	/**
 	 * The constructor.
-	 * 
-	 * @param Factory    $views  
-	 * @param Repository $config 
+	 *
+	 * @param Factory    $views
+	 * @param Repository $config
 	 */
 	public function __construct(Factory $views, Repository $config)
 	{
-		$this->views  = $views;	
-		$this->config = $config;	
+		$this->views  = $views;
+		$this->config = $config;
 	}
 
 	/**
 	 * Make new menu.
 	 *
-	 * @param  string $name 
+	 * @param  string $name
 	 * @return \Pingpong\Menus\Builder
 	 */
 	public function make($name)
@@ -58,7 +58,7 @@ class Menu implements Countable {
 	/**
 	 * Check if the menu exists.
 	 *
-	 * @param  string $name 
+	 * @param  string $name
 	 * @return boolean
 	 */
 	public function has($name)
@@ -68,8 +68,8 @@ class Menu implements Countable {
 
 	/**
 	 * Get instance of the given menu if exists.
-	 * 
-	 * @param  string $name 
+	 *
+	 * @param  string $name
 	 * @return string|null
 	 */
 	public function instance($name)
@@ -79,9 +79,9 @@ class Menu implements Countable {
 
 	/**
 	 * Render the menu tag by given name.
-	 * 
-	 * @param  string $name 
-	 * @param  string $presenter 
+	 *
+	 * @param  string $name
+	 * @param  string $presenter
 	 * @return string|null
 	 */
 	public function get($name, $presenter = null)
@@ -108,7 +108,7 @@ class Menu implements Countable {
      */
     public function style()
     {
-        return $this->views->make('menus::style')->render();
+        return $this->views->make('menus.style')->render();
     }
 
     /**
@@ -123,8 +123,8 @@ class Menu implements Countable {
 
     /**
      * Get count from all menus.
-     * 
-     * @return int 
+     *
+     * @return int
      */
     public function count()
     {
@@ -133,12 +133,12 @@ class Menu implements Countable {
 
     /**
      * Empty the current menus.
-     * 
-     * @return void 
+     *
+     * @return void
      */
     public function destroy()
     {
         $this->menus = array();
     }
-    
+
 }
