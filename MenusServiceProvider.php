@@ -1,5 +1,6 @@
 <?php namespace Pingpong\Menus;
 
+use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 
 class MenusServiceProvider extends ServiceProvider {
