@@ -108,7 +108,7 @@ class MenuBuilder implements Countable {
      */
     public function getStyles()
     {
-        return $this->styles ?: $this->config->get('menus::styles');
+        return $this->styles ?: $this->config->get('menus.styles');
     }
 
     /**
