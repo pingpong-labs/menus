@@ -2,7 +2,7 @@
 
 use Pingpong\Menus\MenuItem;
 
-class Presenter implements PresenterInterface {
+abstract class Presenter implements PresenterInterface {
 	
 	/**
 	 * Get open tag wrapper.
