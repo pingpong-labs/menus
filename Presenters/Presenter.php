@@ -70,7 +70,7 @@ class Presenter implements PresenterInterface {
 		{
             if($child->hasSubMenu())
             {
-                $results.= $this->getMultiLevelDropdownWrapper(($child));
+                $results.= $this->getMultiLevelDropdownWrapper($child);
             }
             elseif($child->isHeader())
             {
