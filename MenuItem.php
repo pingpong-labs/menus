@@ -342,22 +342,24 @@ class MenuItem implements ArrayableContract {
      */
     public function hasActiveOnChild()
     {
+        $isActive = false;
+
         if ($this->hasChilds())
         {
             foreach ($this->getChilds() as $child)
             {
                 if ($child->hasRoute() && $child->getActiveStateFromRoute())
                 {
-                    return true;
+                    $isActive = true;
                 }
                 elseif ($child->getActiveStateFromUrl())
                 {
-                    return true;
+                    $isActive = true;
                 }
-                return false;
             }
         }
-        return false;
+
+        return $isActive;
     }
 
     /**
