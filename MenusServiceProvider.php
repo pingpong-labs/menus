@@ -29,7 +29,10 @@ class MenusServiceProvider extends ServiceProvider {
      */
     public function requireMenusFile()
     {
-        if (file_exists($file = app_path('Support/menus.php'))) require $file;
+        if (file_exists($file = app_path('Support/menus.php')))
+        {
+            require $file;
+        }
     }
 
     /**
@@ -49,7 +52,7 @@ class MenusServiceProvider extends ServiceProvider {
 
     /**
      * Register "iluminate/html" package.
-     * 
+     *
      * @return void
      */
     protected function registerIlluminateHtml()

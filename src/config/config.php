@@ -1,7 +1,7 @@
 <?php
 
 return array(
-	
+
     'styles' => array(
         'navbar' => 'Pingpong\Menus\Presenters\Bootstrap\NavbarPresenter',
         'navbar-right' => 'Pingpong\Menus\Presenters\Bootstrap\NavbarRightPresenter',

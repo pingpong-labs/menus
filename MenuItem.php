@@ -1,12 +1,11 @@
 <?php namespace Pingpong\Menus;
 
-use Illuminate\Html\HtmlFacade as HTML;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Contracts\Support\Arrayable as ArrayableContract;
+use Illuminate\Html\HtmlFacade as HTML;
+use Illuminate\Support\Facades\Request;
 
 class MenuItem implements ArrayableContract {
-    
+
     /**
      * Array properties.
      *
@@ -56,6 +55,7 @@ class MenuItem implements ArrayableContract {
 
             return $properties;
         }
+
         return $properties;
     }
 

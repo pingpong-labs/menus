@@ -87,7 +87,7 @@ class MenuBuilder implements Countable {
         {
             $this->setPresenter($this->getStyle($name));
         }
-        
+
         return $this;
     }
 

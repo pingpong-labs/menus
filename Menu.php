@@ -2,92 +2,92 @@
 
 use Closure;
 use Countable;
-use Illuminate\View\Factory;
 use Illuminate\Config\Repository;
+use Illuminate\View\Factory;
 
 class Menu implements Countable {
 
-	/**
+    /**
      * The menus collections.
      *
-	 * @var array
-	 */
-	protected $menus = array();
+     * @var array
+     */
+    protected $menus = array();
 
-	/**
-	 * The constructor.
-	 *
-	 * @param Factory    $views
-	 * @param Repository $config
-	 */
-	public function __construct(Factory $views, Repository $config)
-	{
-		$this->views  = $views;
-		$this->config = $config;
-	}
+    /**
+     * The constructor.
+     *
+     * @param Factory $views
+     * @param Repository $config
+     */
+    public function __construct(Factory $views, Repository $config)
+    {
+        $this->views = $views;
+        $this->config = $config;
+    }
 
-	/**
-	 * Make new menu.
-	 *
-	 * @param  string $name 
-	 * @return \Pingpong\Menus\MenuBuilder
-	 */
-	public function make($name)
-	{
-		$builder = new MenuBuilder($name, $this->config);
+    /**
+     * Make new menu.
+     *
+     * @param  string $name
+     * @return \Pingpong\Menus\MenuBuilder
+     */
+    public function make($name)
+    {
+        $builder = new MenuBuilder($name, $this->config);
 
         $this->menus[$name] = $builder;
 
-		return $builder;
-	}
+        return $builder;
+    }
 
-	/**
-	 * Create new menu.
-	 *
+    /**
+     * Create new menu.
+     *
      * @param  string $name
      * @param  Callable $resolver
      * @return \Pingpong\Menus\MenuBuilder
-	 */
-	public function create($name, Closure $resolver)
-	{
-		$menus = $this->make($name);
+     */
+    public function create($name, Closure $resolver)
+    {
+        $menus = $this->make($name);
 
-		return $resolver($menus);
-	}
+        return $resolver($menus);
+    }
 
-	/**
-	 * Check if the menu exists.
-	 *
-	 * @param  string $name
-	 * @return boolean
-	 */
-	public function has($name)
-	{
-		return array_key_exists($name, $this->menus);
-	}
+    /**
+     * Check if the menu exists.
+     *
+     * @param  string $name
+     * @return boolean
+     */
+    public function has($name)
+    {
+        return array_key_exists($name, $this->menus);
+    }
 
-	/**
-	 * Get instance of the given menu if exists.
-	 *
-	 * @param  string $name
-	 * @return string|null
-	 */
-	public function instance($name)
-	{
-		return $this->has($name) ? $this->menus[$name] : null;
-	}
+    /**
+     * Get instance of the given menu if exists.
+     *
+     * @param  string $name
+     * @return string|null
+     */
+    public function instance($name)
+    {
+        return $this->has($name) ? $this->menus[$name] : null;
+    }
 
-	/**
-	 * Render the menu tag by given name.
-	 *
-	 * @param  string $name
-	 * @param  string $presenter
-	 * @return string|null
-	 */
-	public function get($name, $presenter = null)
-	{
-		return $this->has($name) ? $this->menus[$name]->render($presenter) : null;
-	}
+    /**
+     * Render the menu tag by given name.
+     *
+     * @param  string $name
+     * @param  string $presenter
+     * @return string|null
+     */
+    public function get($name, $presenter = null)
+    {
+        return $this->has($name) ? $this->menus[$name]->render($presenter) : null;
+    }
 
     /**
      * Render the menu tag by given name.
@@ -97,9 +97,9 @@ class Menu implements Countable {
      * @return string
      */
     public function render($name, $presenter = null)
-	{
-		return $this->get($name, $presenter);
-	}
+    {
+        return $this->get($name, $presenter);
+    }
 
     /**
      * Get a stylesheet for enable multilevel menu.
@@ -128,7 +128,7 @@ class Menu implements Countable {
      */
     public function count()
     {
-    	return count($this->menus);
+        return count($this->menus);
     }
 
     /**
