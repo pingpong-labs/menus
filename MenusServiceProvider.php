@@ -20,6 +20,7 @@ class MenusServiceProvider extends ServiceProvider {
     public function boot()
     {
         $this->registerNamespaces();
+        $this->registerMenusFile();
     }
 
     /**
@@ -27,7 +28,7 @@ class MenusServiceProvider extends ServiceProvider {
      *
      * @return void
      */
-    public function requireMenusFile()
+    public function registerMenusFile()
     {
         if (file_exists($file = app_path('Support/menus.php')))
         {
