@@ -344,13 +344,19 @@ class MenuItem implements ArrayableContract {
      */
     public function hasActiveOnChild()
     {
+        if ($this->inactive()) return false;
+
         $isActive = false;
 
         if ($this->hasChilds())
         {
             foreach ($this->getChilds() as $child)
             {
-                if ($child->isActive())
+                if ($child->inactive())
+                {
+                    $isActive = false;
+                }
+                elseif ($child->isActive())
                 {
                     $isActive = true;
                 }
@@ -369,6 +375,25 @@ class MenuItem implements ArrayableContract {
     }
 
     /**
+     * Get inactive state.
+     * 
+     * @return boolean
+     */
+    public function inactive()
+    {
+        $inactive = $this->getInactiveAttribute();
+
+        if (is_bool($inactive)) return $inactive;
+
+        if ($inactive instanceof \Closure)
+        {
+            return call_user_func($inactive);
+        }
+
+        return false;
+    }
+
+    /**
      * Get active attribute.
      * 
      * @return string
@@ -379,12 +404,24 @@ class MenuItem implements ArrayableContract {
     }
 
     /**
+     * Get inactive attribute.
+     * 
+     * @return string
+     */
+    public function getInactiveAttribute()
+    {
+        return array_get($this->attributes, 'inactive');
+    }
+
+    /**
      * Get active state for current item.
      *
      * @return mixed
      */
     public function isActive()
     {
+        if ($this->inactive()) return false;
+
         $active = $this->getActiveAttribute();
 
         if (is_bool($active)) return $active;
