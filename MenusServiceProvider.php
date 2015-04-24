@@ -58,11 +58,11 @@ class MenusServiceProvider extends ServiceProvider {
      */
     protected function registerIlluminateHtml()
     {
-        $this->app->register('Illuminate\Html\HtmlServiceProvider');
+        $this->app->register('Collective\Html\HtmlServiceProvider');
 
         $aliases = [
-            'HTML' => 'Illuminate\Html\HtmlFacade',
-            'Form' => 'Illuminate\Html\FormFacade',
+            'HTML' => 'Collective\Html\HtmlFacade',
+            'Form' => 'Collective\Html\FormFacade',
         ];
 
         AliasLoader::getInstance($aliases)->register();
