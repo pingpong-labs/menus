@@ -1,7 +1,7 @@
 <?php namespace Pingpong\Menus;
 
 use Illuminate\Contracts\Support\Arrayable as ArrayableContract;
-use Illuminate\Html\HtmlFacade as HTML;
+use Collective\Html\HtmlFacade as HTML;
 use Illuminate\Support\Facades\Request;
 
 class MenuItem implements ArrayableContract {
