@@ -34,13 +34,6 @@ class MenuBuilder implements Countable {
     protected $styles = array();
 
     /**
-     * Prefix URL.
-     * 
-     * @var string|null
-     */
-    protected $prefixUrl = null;
-
-    /**
      * Constructor.
      *
      * @param  string $menu
@@ -49,19 +42,6 @@ class MenuBuilder implements Countable {
     {
         $this->menu = $menu;
         $this->config = $config;
-    }
-
-    /**
-     * Set Prefix URL.
-     * 
-     * @param string $prefixUrl
-     * @return $this
-     */
-    public function setPrefixUrl($prefixUrl)
-    {
-        $this->prefixUrl = $prefixUrl;
-
-        return $this;
     }
 
     /**
@@ -212,17 +192,6 @@ class MenuBuilder implements Countable {
     }
 
     /**
-     * Format URL.
-     * 
-     * @param  string $url
-     * @return string
-     */
-    protected function formatUrl($url)
-    {
-        return ! is_null($this->prefixUrl) ? $this->prefixUrl . $url : $url;
-    }
-
-    /**
      * Register new menu item using url.
      *
      * @param $url
@@ -233,7 +202,7 @@ class MenuBuilder implements Countable {
     public function url($url, $title, $attributes = array())
     {
         $item = MenuItem::make(array(
-            'url' => $this->formatUrl($url),
+            'url' => $url,
             'title' => $title,
             'attributes' => $attributes
         ));
@@ -352,7 +321,7 @@ class MenuBuilder implements Countable {
             }
             elseif ($item->isHeader())
             {
-                $menu .= $presenter->getHeaderWrapper($item);
+                $menu .= $this->getHeaderWrapper($item);
             }
             elseif ($item->isDivider())
             {

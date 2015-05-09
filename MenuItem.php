@@ -5,7 +5,7 @@ use Collective\Html\HtmlFacade as HTML;
 use Illuminate\Support\Facades\Request;
 
 class MenuItem implements ArrayableContract {
-
+    
     /**
      * Array properties.
      *
@@ -25,7 +25,7 @@ class MenuItem implements ArrayableContract {
      *
      * @var array
      */
-    protected $fillable = array('url', 'route', 'title', 'name', 'icon', 'parent', 'attributes', 'active');
+    protected $fillable = array('url', 'route', 'title', 'name', 'icon', 'parent', 'attributes');
 
     /**
      * Constructor.
@@ -55,7 +55,6 @@ class MenuItem implements ArrayableContract {
 
             return $properties;
         }
-
         return $properties;
     }
 
@@ -86,14 +85,14 @@ class MenuItem implements ArrayableContract {
     /**
      * Fill the attributes.
      *
-     * @param  array $attributes
+     * @param  array  $attributes
      * @return void
      */
     public function fill($attributes)
     {
         foreach ($attributes as $key => $value)
         {
-            if (in_array($key, $this->fillable))
+            if(in_array($key, $this->fillable))
             {
                 $this->{$key} = $value;
             }
@@ -143,9 +142,9 @@ class MenuItem implements ArrayableContract {
     public function route($route, $title, $parameters = array(), $attributes = array())
     {
         $item = array(
-            'route' => array($route, $parameters),
-            'title' => $title,
-            'attributes' => $attributes,
+            'route'         =>  array($route, $parameters),
+            'title'         =>  $title,
+            'attributes'    =>  $attributes,
         );
 
         $this->childs[] = static::make($item);
@@ -164,9 +163,9 @@ class MenuItem implements ArrayableContract {
     public function url($url, $title, $attributes = array())
     {
         $item = array(
-            'url' => $url,
-            'title' => $title,
-            'attributes' => $attributes
+            'url'        =>  $url,
+            'title'      =>  $title,
+            'attributes' =>  $attributes
         );
 
         $this->childs[] = static::make($item);
@@ -205,8 +204,8 @@ class MenuItem implements ArrayableContract {
     public function addHeader($title)
     {
         $this->childs[] = static::make(array(
-            'name' => 'header',
-            'title' => $title
+            'name'  =>  'header',
+            'title' =>  $title
         ));
 
         return $this;
@@ -261,7 +260,7 @@ class MenuItem implements ArrayableContract {
      */
     public function getIcon($default = null)
     {
-        return ! is_null($this->icon) ? '<i class="' . $this->icon . '"></i>' : $default;
+        return ! is_null($this->icon) ? '<i class="'. $this->icon .'"></i>' : $default;
     }
 
     /**
@@ -281,9 +280,7 @@ class MenuItem implements ArrayableContract {
      */
     public function getAttributes()
     {
-        $attributes = array_forget($this->attributes, 'active');
-
-        return HTML::attributes($attributes);
+        return HTML::attributes($this->attributes);
     }
 
     /**
@@ -344,27 +341,17 @@ class MenuItem implements ArrayableContract {
      */
     public function hasActiveOnChild()
     {
-        if ($this->inactive()) return false;
-
         $isActive = false;
 
-        if ($this->hasChilds())
+        if($this->hasChilds())
         {
-            foreach ($this->getChilds() as $child)
+            foreach($this->getChilds() as $child)
             {
-                if ($child->inactive())
-                {
-                    $isActive = false;
-                }
-                elseif ($child->isActive())
+                if($child->hasRoute() && $child->getActiveStateFromRoute())
                 {
                     $isActive = true;
                 }
-                elseif ($child->hasRoute() && $child->getActiveStateFromRoute())
-                {
-                    $isActive = true;
-                }
-                elseif ($child->getActiveStateFromUrl())
+                elseif($child->getActiveStateFromUrl())
                 {
                     $isActive = true;
                 }
@@ -375,62 +362,12 @@ class MenuItem implements ArrayableContract {
     }
 
     /**
-     * Get inactive state.
-     * 
-     * @return boolean
-     */
-    public function inactive()
-    {
-        $inactive = $this->getInactiveAttribute();
-
-        if (is_bool($inactive)) return $inactive;
-
-        if ($inactive instanceof \Closure)
-        {
-            return call_user_func($inactive);
-        }
-
-        return false;
-    }
-
-    /**
-     * Get active attribute.
-     * 
-     * @return string
-     */
-    public function getActiveAttribute()
-    {
-        return array_get($this->attributes, 'active');
-    }
-
-    /**
-     * Get inactive attribute.
-     * 
-     * @return string
-     */
-    public function getInactiveAttribute()
-    {
-        return array_get($this->attributes, 'inactive');
-    }
-
-    /**
      * Get active state for current item.
      *
      * @return mixed
      */
     public function isActive()
     {
-        if ($this->inactive()) return false;
-
-        $active = $this->getActiveAttribute();
-
-        if (is_bool($active)) return $active;
-
-        if ($active instanceof \Closure)
-        {
-            return call_user_func($active);
-        }
-
         if ($this->hasRoute())
         {
             return $this->getActiveStateFromRoute();
@@ -484,7 +421,7 @@ class MenuItem implements ArrayableContract {
     /**
      * Get property.
      *
-     * @param  string $key
+     * @param  string  $key
      * @return string|null
      */
     public function __get($key)
