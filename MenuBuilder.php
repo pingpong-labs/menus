@@ -2,46 +2,66 @@
 
 use Illuminate\Config\Repository;
 
-class MenuBuilder implements \Countable {
-    
-	/**
-	 * Menu name.
-	 *
-	 * @var string
-	 */
-	protected $menu;
+class MenuBuilder implements Countable {
 
-	/**
-	 * Array menu items.
-	 *
-	 * @var array
-	 */
-	protected $items = array();
+    /**
+     * Menu name.
+     *
+     * @var string
+     */
+    protected $menu;
 
-	/**
-	 * Default presenter class.
-	 *
-	 * @var string
-	 */
-	protected $presenter = 'Pingpong\Menus\Presenters\Bootstrap\NavbarPresenter';
+    /**
+     * Array menu items.
+     *
+     * @var array
+     */
+    protected $items = array();
 
-	/**
-	 * Style name for each presenter.
-	 *
-	 * @var array
-	 */
-	protected $styles = array();
+    /**
+     * Default presenter class.
+     *
+     * @var string
+     */
+    protected $presenter = 'Pingpong\Menus\Presenters\Bootstrap\NavbarPresenter';
 
-	/**
-	 * Constructor.
-	 *
-	 * @param  string  $menu
-	 */
-	public function __construct($menu, Repository $config)
-	{
-		$this->menu 	= $menu;
-        $this->config   = $config;
-	}
+    /**
+     * Style name for each presenter.
+     *
+     * @var array
+     */
+    protected $styles = array();
+
+    /**
+     * Prefix URL.
+     * 
+     * @var string|null
+     */
+    protected $prefixUrl = null;
+
+    /**
+     * Constructor.
+     *
+     * @param  string $menu
+     */
+    public function __construct($menu, Repository $config)
+    {
+        $this->menu = $menu;
+        $this->config = $config;
+    }
+
+    /**
+     * Set Prefix URL.
+     * 
+     * @param string $prefixUrl
+     * @return $this
+     */
+    public function setPrefixUrl($prefixUrl)
+    {
+        $this->prefixUrl = $prefixUrl;
+
+        return $this;
+    }
 
     /**
      * Set styles.
@@ -189,6 +209,17 @@ class MenuBuilder implements \Countable {
     }
 
     /**
+     * Format URL.
+     * 
+     * @param  string $url
+     * @return string
+     */
+    protected function formatUrl($url)
+    {
+        return ! is_null($this->prefixUrl) ? $this->prefixUrl . $url : $url;
+    }
+
+    /**
      * Register new menu item using url.
      *
      * @param $url
@@ -199,9 +230,9 @@ class MenuBuilder implements \Countable {
     public function url($url, $title, $attributes = array())
     {
         $item = MenuItem::make(array(
-            'url'         =>  $url,
-            'title'       =>  $title,
-            'attributes'  =>  $attributes
+            'url' => $this->formatUrl($url),
+            'title' => $title,
+            'attributes' => $attributes
         ));
 
         $this->items[] = $item;
@@ -280,7 +311,7 @@ class MenuBuilder implements \Countable {
             }
             elseif($item->isHeader())
             {
-                $menu .= $this->getHeaderWrapper($item);
+                $menu .= $presenter->getHeaderWrapper($item);
             }
             elseif ($item->isDivider())
             {
