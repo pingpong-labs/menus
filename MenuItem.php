@@ -1,12 +1,11 @@
 <?php namespace Pingpong\Menus;
 
-use Illuminate\Support\Facades\HTML;
-use Illuminate\Support\Facades\Route;
+use Illuminate\Contracts\Support\Arrayable as ArrayableContract;
+use Collective\Html\HtmlFacade as HTML;
 use Illuminate\Support\Facades\Request;
-use Illuminate\Support\Contracts\ArrayableInterface;
 
-class MenuItem implements ArrayableInterface {
-    
+class MenuItem implements ArrayableContract {
+
     /**
      * Array properties.
      *
@@ -26,7 +25,7 @@ class MenuItem implements ArrayableInterface {
      *
      * @var array
      */
-    protected $fillable = array('url', 'route', 'title', 'name', 'icon', 'parent', 'attributes');
+    protected $fillable = array('url', 'route', 'title', 'name', 'icon', 'parent', 'attributes', 'active');
 
     /**
      * Constructor.
@@ -56,6 +55,7 @@ class MenuItem implements ArrayableInterface {
 
             return $properties;
         }
+
         return $properties;
     }
 
@@ -86,14 +86,14 @@ class MenuItem implements ArrayableInterface {
     /**
      * Fill the attributes.
      *
-     * @param  array  $attributes
+     * @param  array $attributes
      * @return void
      */
     public function fill($attributes)
     {
         foreach ($attributes as $key => $value)
         {
-            if(in_array($key, $this->fillable))
+            if (in_array($key, $this->fillable))
             {
                 $this->{$key} = $value;
             }
@@ -143,9 +143,9 @@ class MenuItem implements ArrayableInterface {
     public function route($route, $title, $parameters = array(), $attributes = array())
     {
         $item = array(
-            'route'         =>  array($route, $parameters),
-            'title'         =>  $title,
-            'attributes'    =>  $attributes,
+            'route' => array($route, $parameters),
+            'title' => $title,
+            'attributes' => $attributes,
         );
 
         $this->childs[] = static::make($item);
@@ -164,9 +164,9 @@ class MenuItem implements ArrayableInterface {
     public function url($url, $title, $attributes = array())
     {
         $item = array(
-            'url'        =>  $url,
-            'title'      =>  $title,
-            'attributes' =>  $attributes
+            'url' => $url,
+            'title' => $title,
+            'attributes' => $attributes
         );
 
         $this->childs[] = static::make($item);
@@ -205,8 +205,8 @@ class MenuItem implements ArrayableInterface {
     public function addHeader($title)
     {
         $this->childs[] = static::make(array(
-            'name'  =>  'header',
-            'title' =>  $title
+            'name' => 'header',
+            'title' => $title
         ));
 
         return $this;
@@ -261,7 +261,7 @@ class MenuItem implements ArrayableInterface {
      */
     public function getIcon($default = null)
     {
-        return ! is_null($this->icon) ? '<i class="'. $this->icon .'"></i>' : $default;
+        return ! is_null($this->icon) ? '<i class="' . $this->icon . '"></i>' : $default;
     }
 
     /**
@@ -281,7 +281,9 @@ class MenuItem implements ArrayableInterface {
      */
     public function getAttributes()
     {
-        return HTML::attributes($this->attributes);
+        $attributes = array_forget($this->attributes, 'active');
+
+        return HTML::attributes($attributes);
     }
 
     /**
@@ -342,22 +344,73 @@ class MenuItem implements ArrayableInterface {
      */
     public function hasActiveOnChild()
     {
-        if($this->hasChilds())
+        if ($this->inactive()) return false;
+
+        $isActive = false;
+
+        if ($this->hasChilds())
         {
-            foreach($this->getChilds() as $child)
+            foreach ($this->getChilds() as $child)
             {
-                if($child->hasRoute() && $child->getActiveStateFromRoute())
+                if ($child->inactive())
                 {
-                    return true;
+                    $isActive = false;
                 }
-                elseif($child->getActiveStateFromUrl())
+                elseif ($child->isActive())
                 {
-                    return true;
+                    $isActive = true;
                 }
-                return false;
+                elseif ($child->hasRoute() && $child->getActiveStateFromRoute())
+                {
+                    $isActive = true;
+                }
+                elseif ($child->getActiveStateFromUrl())
+                {
+                    $isActive = true;
+                }
             }
         }
+
+        return $isActive;
+    }
+
+    /**
+     * Get inactive state.
+     * 
+     * @return boolean
+     */
+    public function inactive()
+    {
+        $inactive = $this->getInactiveAttribute();
+
+        if (is_bool($inactive)) return $inactive;
+
+        if ($inactive instanceof \Closure)
+        {
+            return call_user_func($inactive);
+        }
+
         return false;
+    }
+
+    /**
+     * Get active attribute.
+     * 
+     * @return string
+     */
+    public function getActiveAttribute()
+    {
+        return array_get($this->attributes, 'active');
+    }
+
+    /**
+     * Get inactive attribute.
+     * 
+     * @return string
+     */
+    public function getInactiveAttribute()
+    {
+        return array_get($this->attributes, 'inactive');
     }
 
     /**
@@ -367,6 +420,17 @@ class MenuItem implements ArrayableInterface {
      */
     public function isActive()
     {
+        if ($this->inactive()) return false;
+
+        $active = $this->getActiveAttribute();
+
+        if (is_bool($active)) return $active;
+
+        if ($active instanceof \Closure)
+        {
+            return call_user_func($active);
+        }
+
         if ($this->hasRoute())
         {
             return $this->getActiveStateFromRoute();
@@ -420,7 +484,7 @@ class MenuItem implements ArrayableInterface {
     /**
      * Get property.
      *
-     * @param  string  $key
+     * @param  string $key
      * @return string|null
      */
     public function __get($key)
