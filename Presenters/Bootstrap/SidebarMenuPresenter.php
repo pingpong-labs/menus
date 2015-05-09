@@ -2,30 +2,39 @@
 
 use Pingpong\Menus\Presenters\Presenter;
 
-class NavbarPresenter extends Presenter {
+class SidebarMenuPresenter extends Presenter {
 
     /**
-     * {@inheritdoc }
+     * Get open tag wrapper.
+     *
+     * @return string
      */
     public function getOpenTagWrapper()
     {
-        return PHP_EOL . '<ul class="nav navbar-nav">' . PHP_EOL;
+        return '<ul class="nav navbar-nav">';
     }
 
     /**
-     * {@inheritdoc }
+     * Get close tag wrapper.
+     *
+     * @return string
      */
     public function getCloseTagWrapper()
     {
-        return PHP_EOL . '</ul>' . PHP_EOL;
+        return '</ul>';
     }
 
     /**
-     * {@inheritdoc }
+     * Get menu tag without dropdown wrapper.
+     *
+     * @param  \Pingpong\Menus\MenuItem $item
+     * @return string
      */
     public function getMenuWithoutDropdownWrapper($item)
     {
-        return '<li' . $this->getActiveState($item) . '><a href="' . $item->getUrl() . '" ' . $item->getAttributes() . '>' . $item->getIcon() . ' ' . $item->title . '</a></li>' . PHP_EOL;
+        return '<li' . $this->getActiveState($item) . '>
+			<a href="' . $item->getUrl() . '" ' . $item->getAttributes() . '>'
+        . $item->getIcon() . ' ' . $item->title . '</a></li>' . PHP_EOL;
     }
 
     /**
@@ -69,16 +78,22 @@ class NavbarPresenter extends Presenter {
      */
     public function getMenuWithDropDownWrapper($item)
     {
-        return '<li class="dropdown' . $this->getActiveStateOnChild($item, ' active') . '">
-		          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-					' . $item->getIcon() . ' ' . $item->title . '
-			      	<b class="caret"></b>
-			      </a>
-			      <ul class="dropdown-menu">
-			      	' . $this->getChildMenuItems($item) . '
-			      </ul>
-		      	</li>'
-        . PHP_EOL;;
+        $id = str_random();
+
+        return '
+		<li class="' . $this->getActiveStateOnChild($item) . ' panel panel-default" id="dropdown">
+			<a data-toggle="collapse" href="#' . $id . '">
+				' . $item->getIcon() . ' ' . $item->title . ' <span class="caret"></span>
+			</a>
+			<div id="' . $id . '" class="panel-collapse collapse ' . $this->getActiveStateOnChild($item, 'in') . '">
+				<div class="panel-body">
+					<ul class="nav navbar-nav">
+						' . $this->getChildMenuItems($item) . '
+					</ul>
+				</div>
+			</div>
+		</li>
+		' . PHP_EOL;
     }
 
     /**
@@ -89,16 +104,7 @@ class NavbarPresenter extends Presenter {
      */
     public function getMultiLevelDropdownWrapper($item)
     {
-        return '<li class="dropdown' . $this->getActiveStateOnChild($item, ' active') . '">
-		          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-					' . $item->getIcon() . ' ' . $item->title . '
-			      	<b class="caret pull-right caret-right"></b>
-			      </a>
-			      <ul class="dropdown-menu">
-			      	' . $this->getChildMenuItems($item) . '
-			      </ul>
-		      	</li>'
-        . PHP_EOL;;
+        return $this->getMenuWithDropDownWrapper($item);
     }
 
 }

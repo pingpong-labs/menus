@@ -1,11 +1,10 @@
 <?php namespace Pingpong\Menus;
 
-use Illuminate\Support\Facades\HTML;
-use Illuminate\Support\Facades\Route;
+use Illuminate\Contracts\Support\Arrayable as ArrayableContract;
+use Collective\Html\HtmlFacade as HTML;
 use Illuminate\Support\Facades\Request;
-use Illuminate\Support\Contracts\ArrayableInterface;
 
-class MenuItem implements ArrayableInterface {
+class MenuItem implements ArrayableContract {
     
     /**
      * Array properties.
