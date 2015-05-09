@@ -1,5 +1,6 @@
 <?php namespace Pingpong\Menus;
 
+use Countable;
 use Illuminate\Config\Repository;
 
 class MenuBuilder implements Countable {
