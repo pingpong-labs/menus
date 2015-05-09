@@ -1,50 +1,53 @@
 <?php namespace Pingpong\Menus;
 
+use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 
 class MenusServiceProvider extends ServiceProvider {
 
-	/**
-	 * Indicates if loading of the provider is deferred.
-	 *
-	 * @var bool
-	 */
-	protected $defer = false;
+    /**
+     * Indicates if loading of the provider is deferred.
+     *
+     * @var bool
+     */
+    protected $defer = false;
 
-	/**
-	 * Bootstrap the application events.
-	 *
-	 * @return void
-	 */
-	public function boot()
-	{
-		$this->package('pingpong/menus');
-		$this->requireMenusFile();
-	}
+    /**
+     * Bootstrap the application events.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        $this->registerNamespaces();
+        $this->registerMenusFile();
+    }
 
-	/**
-	 * Require the menus file if that file is exists.
-	 *
-	 * @return void
-	 */
-	public function requireMenusFile()
-	{
-		if(file_exists($file = app_path('menus.php')))
-		{
-			require $file;
-		}
-	}
-
-	/**
-	 * Register the service provider.
-	 *
-	 * @return void
-	 */
-	public function register()
-	{
-        $this->app['menus'] = $this->app->share(function($app)
+    /**
+     * Require the menus file if that file is exists.
+     *
+     * @return void
+     */
+    public function registerMenusFile()
+    {
+        if (file_exists($file = app_path('Support/menus.php')))
         {
-        	return new Menu($app['view'], $app['config']);
+            require $file;
+        }
+    }
+
+    /**
+     * Register the service provider.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->registerIlluminateHtml();
+
+        $this->app['menus'] = $this->app->share(function ($app)
+        {
+            return new Menu($app['view'], $app['config']);
         });
     }
 
