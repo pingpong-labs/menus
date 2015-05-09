@@ -316,7 +316,7 @@ class MenuBuilder implements Countable {
             }
             elseif ($item->isHeader())
             {
-                $menu .= $this->getHeaderWrapper($item);
+                $menu .= $presenter->getHeaderWrapper($item);
             }
             elseif ($item->isDivider())
             {
