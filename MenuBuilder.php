@@ -256,6 +256,21 @@ class MenuBuilder implements Countable {
     }
 
     /**
+     * Add new header item.
+     *
+     * @return \Pingpong\Menus\MenuItem
+     */
+    public function addHeader($title)
+    {
+        $this->items[] = new MenuItem(array(
+            'name' => 'header',
+            'title' => $title
+        ));
+
+        return $this;
+    }
+
+    /**
      * Get items count.
      *
      * @return int
