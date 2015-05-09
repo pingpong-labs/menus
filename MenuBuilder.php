@@ -1,95 +1,93 @@
 <?php namespace Pingpong\Menus;
 
-use Countable;
 use Illuminate\Config\Repository;
 
-class MenuBuilder implements Countable {
+class MenuBuilder implements \Countable {
+    
+	/**
+	 * Menu name.
+	 *
+	 * @var string
+	 */
+	protected $menu;
 
-    /**
-     * Menu name.
-     *
-     * @var string
-     */
-    protected $menu;
+	/**
+	 * Array menu items.
+	 *
+	 * @var array
+	 */
+	protected $items = array();
 
-    /**
-     * Array menu items.
-     *
-     * @var array
-     */
-    protected $items = array();
+	/**
+	 * Default presenter class.
+	 *
+	 * @var string
+	 */
+	protected $presenter = 'Pingpong\Menus\Presenters\Bootstrap\NavbarPresenter';
 
-    /**
-     * Default presenter class.
-     *
-     * @var string
-     */
-    protected $presenter = 'Pingpong\Menus\Presenters\Bootstrap\NavbarPresenter';
+	/**
+	 * Style name for each presenter.
+	 *
+	 * @var array
+	 */
+	protected $styles = array();
 
-    /**
-     * Style name for each presenter.
-     *
-     * @var array
-     */
-    protected $styles = array();
-
-    /**
-     * Constructor.
-     *
-     * @param  string $menu
-     */
-    public function __construct($menu, Repository $config)
-    {
-        $this->menu = $menu;
-        $this->config = $config;
-    }
+	/**
+	 * Constructor.
+	 *
+	 * @param  string  $menu
+	 */
+	public function __construct($menu, Repository $config)
+	{
+		$this->menu 	= $menu;
+        $this->config   = $config;
+	}
 
     /**
      * Set styles.
-     *
-     * @param array $styles
+     * 
+     * @param array $styles 
      */
     public function setStyles(array $styles)
     {
         $this->styles = $styles;
     }
 
-    /**
-     * Set new presenter class.
-     *
-     * @param  string $presenter
-     * @return void
-     */
-    public function setPresenter($presenter)
-    {
-        $this->presenter = $presenter;
-    }
+	/**
+	 * Set new presenter class.
+	 *
+	 * @param  string  $presenter
+	 * @return void
+	 */
+	public function setPresenter($presenter)
+	{
+		$this->presenter = $presenter;
+	}
 
-    /**
-     * Get presenter instance.
-     *
-     * @return \Pingpong\Menus\Presenters\PresenterInterface
-     */
-    public function getPresenter()
-    {
-        return new $this->presenter;
-    }
+	/**
+	 * Get presenter instance.
+	 *
+	 * @return \Pingpong\Menus\Presenters\PresenterInterface
+	 */
+	public function getPresenter()
+	{
+		return new $this->presenter;
+	}
 
-    /**
-     * Set new presenter class by given style name.
-     *
-     * @param  string $name
-     * @return self
-     */
-    public function style($name)
-    {
-        if ($this->hasStyle($name))
-        {
-            $this->setPresenter($this->getStyle($name));
-        }
-
-        return $this;
-    }
+	/**
+	 * Set new presenter class by given style name.
+	 *
+	 * @param  string  $name
+	 * @return self
+	 */
+	public function style($name)
+	{
+		if($this->hasStyle($name))
+		{
+			$this->setPresenter($this->getStyle($name));
+		}
+		return $this;
+	}
 
     /**
      * Determine if the given name in the presenter style.
@@ -104,8 +102,8 @@ class MenuBuilder implements Countable {
 
     /**
      * Get style aliases.
-     *
-     * @return mixed
+     * 
+     * @return mixed 
      */
     public function getStyles()
     {
@@ -135,15 +133,15 @@ class MenuBuilder implements Countable {
         $this->setPresenter($this->getStyle($name));
     }
 
-    /**
-     * Add new child menu.
-     *
-     * @param  array $attributes
-     * @return \Pingpong\Menus\MenuItem
-     */
-    public function add(array $attributes = array())
-    {
-        $item = MenuItem::make($attributes);
+	/**
+	 * Add new child menu.
+	 *
+	 * @param  array  $attributes
+	 * @return \Pingpong\Menus\MenuItem
+	 */
+	public function add(array $attributes = array())
+	{
+        $item =  MenuItem::make($attributes);
 
         $this->items[] = $item;
 
@@ -155,7 +153,6 @@ class MenuBuilder implements Countable {
      *
      * @param $title
      * @param callable $callback
-     * @param array $attributes
      * @return $this
      */
     public function dropdown($title, \Closure $callback, array $attributes = array())
@@ -181,9 +178,9 @@ class MenuBuilder implements Countable {
     public function route($route, $title, $parameters = array(), $attributes = array())
     {
         $item = MenuItem::make(array(
-            'route' => array($route, $parameters),
-            'title' => $title,
-            'attributes' => $attributes
+            'route'         =>  array($route, $parameters),
+            'title'         =>  $title,
+            'attributes'    =>  $attributes
         ));
 
         $this->items[] = $item;
@@ -202,9 +199,9 @@ class MenuBuilder implements Countable {
     public function url($url, $title, $attributes = array())
     {
         $item = MenuItem::make(array(
-            'url' => $url,
-            'title' => $title,
-            'attributes' => $attributes
+            'url'         =>  $url,
+            'title'       =>  $title,
+            'attributes'  =>  $attributes
         ));
 
         $this->items[] = $item;
@@ -212,22 +209,22 @@ class MenuBuilder implements Countable {
         return $item;
     }
 
-    /**
-     * Add new divider item.
-     *
-     * @return \Pingpong\Menus\MenuItem
-     */
-    public function addDivider()
-    {
-        $this->items[] = new MenuItem(array('name' => 'divider'));
+	/**
+	 * Add new divider item.
+	 *
+	 * @return \Pingpong\Menus\MenuItem
+	 */
+	public function addDivider()
+	{
+		$this->items[] = new MenuItem(array('name' => 'divider'));
 
-        return $this;
-    }
+		return $this;
+	}
 
     /**
      * Get items count.
-     *
-     * @return int
+     * 
+     * @return int 
      */
     public function count()
     {
@@ -236,36 +233,34 @@ class MenuBuilder implements Countable {
 
     /**
      * Empty the current menu items.
-     *
-     * @return void
+     * 
+     * @return void 
      */
     public function destroy()
     {
         $this->items = array();
-
-        return $this;
     }
 
-    /**
-     * Render the menu to HTML tag.
-     *
-     * @param  string $presenter
-     * @return string
-     */
-    public function render($presenter = null)
-    {
-        if ($this->hasStyle($presenter))
+	/**
+	 * Render the menu to HTML tag.
+	 *
+	 * @param  string  $presenter
+	 * @return string
+	 */
+	public function render($presenter = null)
+	{
+        if($this->hasStyle($presenter))
         {
             $this->setPresenterFromStyle($presenter);
         }
 
-        if ( ! is_null($presenter) && ! $this->hasStyle($presenter))
-        {
-            $this->setPresenter($presenter);
-        }
+		if( ! is_null($presenter) && ! $this->hasStyle($presenter))
+		{
+			$this->setPresenter($presenter);
+		}
 
         return $this->renderMenu();
-    }
+	}
 
     /**
      * Render the menu.
@@ -274,8 +269,8 @@ class MenuBuilder implements Countable {
      */
     protected function renderMenu()
     {
-        $presenter = $this->getPresenter();
-        $menu = $presenter->getOpenTagWrapper();
+        $presenter  = $this->getPresenter();
+        $menu       = $presenter->getOpenTagWrapper();
 
         foreach ($this->items as $item)
         {
@@ -283,7 +278,7 @@ class MenuBuilder implements Countable {
             {
                 $menu .= $presenter->getMenuWithDropDownWrapper($item);
             }
-            elseif ($item->isHeader())
+            elseif($item->isHeader())
             {
                 $menu .= $this->getHeaderWrapper($item);
             }
@@ -296,9 +291,7 @@ class MenuBuilder implements Countable {
                 $menu .= $presenter->getMenuWithoutDropdownWrapper($item);
             }
         }
-
         $menu .= $presenter->getCloseTagWrapper();
-
         return $menu;
     }
 }
