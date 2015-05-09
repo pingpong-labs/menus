@@ -271,6 +271,27 @@ class MenuBuilder implements Countable {
     }
 
     /**
+     * Alias for "addHeader" method.
+     * 
+     * @param  string $title
+     * @return $this
+     */
+    public function header($title)
+    {
+        return $this->addHeader($title);
+    }
+
+    /**
+     * Alias for "addDivider" method.
+     * 
+     * @return $this
+     */
+    public function divider()
+    {
+        return $this->addDivider();
+    }
+
+    /**
      * Get items count.
      *
      * @return int
