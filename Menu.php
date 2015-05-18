@@ -5,7 +5,8 @@ use Countable;
 use Illuminate\Config\Repository;
 use Illuminate\View\Factory;
 
-class Menu implements Countable {
+class Menu implements Countable
+{
 
     /**
      * The menus collections.
@@ -140,5 +141,4 @@ class Menu implements Countable {
     {
         $this->menus = array();
     }
-
 }

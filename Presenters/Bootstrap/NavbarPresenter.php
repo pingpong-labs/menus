@@ -2,7 +2,8 @@
 
 use Pingpong\Menus\Presenters\Presenter;
 
-class NavbarPresenter extends Presenter {
+class NavbarPresenter extends Presenter
+{
 
     /**
      * {@inheritdoc }
@@ -78,7 +79,8 @@ class NavbarPresenter extends Presenter {
 			      	' . $this->getChildMenuItems($item) . '
 			      </ul>
 		      	</li>'
-        . PHP_EOL;;
+        . PHP_EOL;
+        ;
     }
 
     /**
@@ -98,7 +100,7 @@ class NavbarPresenter extends Presenter {
 			      	' . $this->getChildMenuItems($item) . '
 			      </ul>
 		      	</li>'
-        . PHP_EOL;;
+        . PHP_EOL;
+        ;
     }
-
 }

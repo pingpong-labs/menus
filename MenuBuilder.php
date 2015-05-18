@@ -3,7 +3,8 @@
 use Countable;
 use Illuminate\Config\Repository;
 
-class MenuBuilder implements Countable {
+class MenuBuilder implements Countable
+{
 
     /**
      * Menu name.
@@ -35,7 +36,7 @@ class MenuBuilder implements Countable {
 
     /**
      * Prefix URL.
-     * 
+     *
      * @var string|null
      */
     protected $prefixUrl = null;
@@ -53,7 +54,7 @@ class MenuBuilder implements Countable {
 
     /**
      * Set Prefix URL.
-     * 
+     *
      * @param string $prefixUrl
      * @return $this
      */
@@ -103,8 +104,7 @@ class MenuBuilder implements Countable {
      */
     public function style($name)
     {
-        if ($this->hasStyle($name))
-        {
+        if ($this->hasStyle($name)) {
             $this->setPresenter($this->getStyle($name));
         }
 
@@ -213,7 +213,7 @@ class MenuBuilder implements Countable {
 
     /**
      * Format URL.
-     * 
+     *
      * @param  string $url
      * @return string
      */
@@ -272,7 +272,7 @@ class MenuBuilder implements Countable {
 
     /**
      * Alias for "addHeader" method.
-     * 
+     *
      * @param  string $title
      * @return $this
      */
@@ -283,7 +283,7 @@ class MenuBuilder implements Countable {
 
     /**
      * Alias for "addDivider" method.
-     * 
+     *
      * @return $this
      */
     public function divider()
@@ -321,13 +321,11 @@ class MenuBuilder implements Countable {
      */
     public function render($presenter = null)
     {
-        if ($this->hasStyle($presenter))
-        {
+        if ($this->hasStyle($presenter)) {
             $this->setPresenterFromStyle($presenter);
         }
 
-        if ( ! is_null($presenter) && ! $this->hasStyle($presenter))
-        {
+        if (! is_null($presenter) && ! $this->hasStyle($presenter)) {
             $this->setPresenter($presenter);
         }
 
@@ -344,22 +342,14 @@ class MenuBuilder implements Countable {
         $presenter = $this->getPresenter();
         $menu = $presenter->getOpenTagWrapper();
 
-        foreach ($this->items as $item)
-        {
-            if ($item->hasSubMenu())
-            {
+        foreach ($this->items as $item) {
+            if ($item->hasSubMenu()) {
                 $menu .= $presenter->getMenuWithDropDownWrapper($item);
-            }
-            elseif ($item->isHeader())
-            {
+            } elseif ($item->isHeader()) {
                 $menu .= $presenter->getHeaderWrapper($item);
-            }
-            elseif ($item->isDivider())
-            {
+            } elseif ($item->isDivider()) {
                 $menu .= $presenter->getDividerWrapper();
-            }
-            else
-            {
+            } else {
                 $menu .= $presenter->getMenuWithoutDropdownWrapper($item);
             }
         }

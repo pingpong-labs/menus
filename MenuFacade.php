@@ -2,7 +2,8 @@
 
 use Illuminate\Support\Facades\Facade;
 
-class MenuFacade extends Facade {
+class MenuFacade extends Facade
+{
 
     /**
      * Get the registered name of the component.
@@ -13,5 +14,4 @@ class MenuFacade extends Facade {
     {
         return 'menus';
     }
-
 }

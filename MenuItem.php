@@ -4,7 +4,8 @@ use Illuminate\Contracts\Support\Arrayable as ArrayableContract;
 use Collective\Html\HtmlFacade as HTML;
 use Illuminate\Support\Facades\Request;
 
-class MenuItem implements ArrayableContract {
+class MenuItem implements ArrayableContract
+{
 
     /**
      * Array properties.
@@ -47,8 +48,7 @@ class MenuItem implements ArrayableContract {
     protected static function setIconIfDefinedInAttributes(array $properties)
     {
         $icon = array_get($properties, 'attributes.icon');
-        if ( ! is_null($icon))
-        {
+        if (! is_null($icon)) {
             $properties['icon'] = $icon;
 
             array_forget($properties, 'attributes.icon');
@@ -91,10 +91,8 @@ class MenuItem implements ArrayableContract {
      */
     public function fill($attributes)
     {
-        foreach ($attributes as $key => $value)
-        {
-            if (in_array($key, $this->fillable))
-            {
+        foreach ($attributes as $key => $value) {
+            if (in_array($key, $this->fillable)) {
                 $this->{$key} = $value;
             }
         }
@@ -344,28 +342,21 @@ class MenuItem implements ArrayableContract {
      */
     public function hasActiveOnChild()
     {
-        if ($this->inactive()) return false;
+        if ($this->inactive()) {
+            return false;
+        }
 
         $isActive = false;
 
-        if ($this->hasChilds())
-        {
-            foreach ($this->getChilds() as $child)
-            {
-                if ($child->inactive())
-                {
+        if ($this->hasChilds()) {
+            foreach ($this->getChilds() as $child) {
+                if ($child->inactive()) {
                     $isActive = false;
-                }
-                elseif ($child->isActive())
-                {
+                } elseif ($child->isActive()) {
                     $isActive = true;
-                }
-                elseif ($child->hasRoute() && $child->getActiveStateFromRoute())
-                {
+                } elseif ($child->hasRoute() && $child->getActiveStateFromRoute()) {
                     $isActive = true;
-                }
-                elseif ($child->getActiveStateFromUrl())
-                {
+                } elseif ($child->getActiveStateFromUrl()) {
                     $isActive = true;
                 }
             }
@@ -376,17 +367,18 @@ class MenuItem implements ArrayableContract {
 
     /**
      * Get inactive state.
-     * 
+     *
      * @return boolean
      */
     public function inactive()
     {
         $inactive = $this->getInactiveAttribute();
 
-        if (is_bool($inactive)) return $inactive;
+        if (is_bool($inactive)) {
+            return $inactive;
+        }
 
-        if ($inactive instanceof \Closure)
-        {
+        if ($inactive instanceof \Closure) {
             return call_user_func($inactive);
         }
 
@@ -395,7 +387,7 @@ class MenuItem implements ArrayableContract {
 
     /**
      * Get active attribute.
-     * 
+     *
      * @return string
      */
     public function getActiveAttribute()
@@ -405,7 +397,7 @@ class MenuItem implements ArrayableContract {
 
     /**
      * Get inactive attribute.
-     * 
+     *
      * @return string
      */
     public function getInactiveAttribute()
@@ -420,23 +412,23 @@ class MenuItem implements ArrayableContract {
      */
     public function isActive()
     {
-        if ($this->inactive()) return false;
+        if ($this->inactive()) {
+            return false;
+        }
 
         $active = $this->getActiveAttribute();
 
-        if (is_bool($active)) return $active;
+        if (is_bool($active)) {
+            return $active;
+        }
 
-        if ($active instanceof \Closure)
-        {
+        if ($active instanceof \Closure) {
             return call_user_func($active);
         }
 
-        if ($this->hasRoute())
-        {
+        if ($this->hasRoute()) {
             return $this->getActiveStateFromRoute();
-        }
-        else
-        {
+        } else {
             return $this->getActiveStateFromUrl();
         }
     }

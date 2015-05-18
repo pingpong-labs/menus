@@ -3,7 +3,8 @@
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 
-class MenusServiceProvider extends ServiceProvider {
+class MenusServiceProvider extends ServiceProvider
+{
 
     /**
      * Indicates if loading of the provider is deferred.
@@ -30,8 +31,7 @@ class MenusServiceProvider extends ServiceProvider {
      */
     public function registerMenusFile()
     {
-        if (file_exists($file = app_path('Support/menus.php')))
-        {
+        if (file_exists($file = app_path('Support/menus.php'))) {
             require $file;
         }
     }
@@ -45,8 +45,7 @@ class MenusServiceProvider extends ServiceProvider {
     {
         $this->registerIlluminateHtml();
 
-        $this->app['menus'] = $this->app->share(function ($app)
-        {
+        $this->app['menus'] = $this->app->share(function ($app) {
             return new Menu($app['view'], $app['config']);
         });
     }
@@ -96,5 +95,4 @@ class MenusServiceProvider extends ServiceProvider {
             __DIR__ . '/src/views' => base_path('resources/views/vendor/pingpong/menus'),
         ], 'views');
     }
-
 }

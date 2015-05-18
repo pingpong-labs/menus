@@ -2,7 +2,8 @@
 
 use Pingpong\Menus\Presenters\Presenter;
 
-class SidebarMenuPresenter extends Presenter {
+class SidebarMenuPresenter extends Presenter
+{
 
     /**
      * Get open tag wrapper.
@@ -106,5 +107,4 @@ class SidebarMenuPresenter extends Presenter {
     {
         return $this->getMenuWithDropDownWrapper($item);
     }
-
 }

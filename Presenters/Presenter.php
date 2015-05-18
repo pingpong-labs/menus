@@ -2,21 +2,26 @@
 
 use Pingpong\Menus\MenuItem;
 
-abstract class Presenter implements PresenterInterface {
+abstract class Presenter implements PresenterInterface
+{
 
     /**
      * Get open tag wrapper.
      *
      * @return string
      */
-    public function getOpenTagWrapper() { }
+    public function getOpenTagWrapper()
+    {
+    }
 
     /**
      * Get close tag wrapper.
      *
      * @return string
      */
-    public function getCloseTagWrapper() { }
+    public function getCloseTagWrapper()
+    {
+    }
 
     /**
      * Get menu tag without dropdown wrapper.
@@ -24,14 +29,18 @@ abstract class Presenter implements PresenterInterface {
      * @param  \Pingpong\Menus\MenuItem $item
      * @return string
      */
-    public function getMenuWithoutDropdownWrapper($item) { }
+    public function getMenuWithoutDropdownWrapper($item)
+    {
+    }
 
     /**
      * Get divider tag wrapper.
      *
      * @return string
      */
-    public function getDividerWrapper() { }
+    public function getDividerWrapper()
+    {
+    }
 
     /**
      * Get header dropdown tag wrapper.
@@ -39,7 +48,9 @@ abstract class Presenter implements PresenterInterface {
      * @param  \Pingpong\Menus\MenuItem $item
      * @return string
      */
-    public function getHeaderWrapper($item) { }
+    public function getHeaderWrapper($item)
+    {
+    }
 
     /**
      * Get menu tag with dropdown wrapper.
@@ -47,7 +58,9 @@ abstract class Presenter implements PresenterInterface {
      * @param  \Pingpong\Menus\MenuItem $item
      * @return string
      */
-    public function getMenuWithDropDownWrapper($item) { }
+    public function getMenuWithDropDownWrapper($item)
+    {
+    }
 
     /**
      * Get multi level dropdown menu wrapper.
@@ -55,7 +68,9 @@ abstract class Presenter implements PresenterInterface {
      * @param  \Pingpong\Menus\MenuItem $item
      * @return string
      */
-    public function getMultiLevelDropdownWrapper($item) { }
+    public function getMultiLevelDropdownWrapper($item)
+    {
+    }
 
     /**
      * Get child menu items.
@@ -66,22 +81,14 @@ abstract class Presenter implements PresenterInterface {
     public function getChildMenuItems(MenuItem $item)
     {
         $results = '';
-        foreach ($item->getChilds() as $child)
-        {
-            if ($child->hasSubMenu())
-            {
+        foreach ($item->getChilds() as $child) {
+            if ($child->hasSubMenu()) {
                 $results .= $this->getMultiLevelDropdownWrapper($child);
-            }
-            elseif ($child->isHeader())
-            {
+            } elseif ($child->isHeader()) {
                 $results .= $this->getHeaderWrapper($child);
-            }
-            elseif ($child->isDivider())
-            {
+            } elseif ($child->isDivider()) {
                 $results .= $this->getDividerWrapper();
-            }
-            else
-            {
+            } else {
                 $results .= $this->getMenuWithoutDropdownWrapper($child);
             }
         }
