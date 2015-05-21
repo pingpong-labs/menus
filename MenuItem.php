@@ -45,7 +45,7 @@ class MenuItem implements ArrayableContract
      * @param array $properties
      * @return array
      */
-    protected static function setIconIfDefinedInAttributes(array $properties)
+    protected static function setIconAttribute(array $properties)
     {
         $icon = array_get($properties, 'attributes.icon');
         if (! is_null($icon)) {
@@ -78,7 +78,7 @@ class MenuItem implements ArrayableContract
      */
     public static function make(array $properties)
     {
-        $properties = self::setIconIfDefinedInAttributes($properties);
+        $properties = self::setIconAttribute($properties);
 
         return new static($properties);
     }
