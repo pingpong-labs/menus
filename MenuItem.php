@@ -346,23 +346,29 @@ class MenuItem implements ArrayableContract
             return false;
         }
 
-        $isActive = false;
+        return $this->hasChilds() ? $this->getActiveStateFromChilds() : false;
+    }
 
-        if ($this->hasChilds()) {
-            foreach ($this->getChilds() as $child) {
-                if ($child->inactive()) {
-                    $isActive = false;
-                } elseif ($child->isActive()) {
-                    $isActive = true;
-                } elseif ($child->hasRoute() && $child->getActiveStateFromRoute()) {
-                    $isActive = true;
-                } elseif ($child->getActiveStateFromUrl()) {
-                    $isActive = true;
-                }
+    /**
+     * Get active state from child menu items.
+     *
+     * @return boolean
+     */
+    public function getActiveStateFromChilds()
+    {
+        foreach ($this->getChilds() as $child) {
+            if ($child->inactive()) {
+                return false;
+            } elseif ($child->isActive()) {
+                return true;
+            } elseif ($child->hasRoute() && $child->getActiveStateFromRoute()) {
+                return true;
+            } elseif ($child->getActiveStateFromUrl()) {
+                return true;
             }
         }
 
-        return $isActive;
+        return false;
     }
 
     /**
