@@ -37,6 +37,8 @@ class Menu implements Countable
     {
         $builder = new MenuBuilder($name, $this->config);
 
+        $builder->setViewFactory($this->views);
+        
         $this->menus[$name] = $builder;
 
         return $builder;
