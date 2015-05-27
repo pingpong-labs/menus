@@ -111,7 +111,7 @@ class Menu implements Countable
      */
     public function style()
     {
-        return $this->views->make('menus.style')->render();
+        return $this->views->make('menus::style')->render();
     }
 
     /**
