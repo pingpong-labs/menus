@@ -2,6 +2,7 @@
 
 use Countable;
 use Illuminate\Config\Repository;
+use Illuminate\View\Factory as ViewFactory;
 
 class MenuBuilder implements Countable
 {
@@ -42,6 +43,20 @@ class MenuBuilder implements Countable
     protected $prefixUrl = null;
 
     /**
+     * The name of view presenter.
+     * 
+     * @var null
+     */
+    protected $view = null;
+
+    /**
+     * The laravel view factory instance.
+     * 
+     * @var \Illumiate\View\Factory
+     */
+    protected $views;
+
+    /**
      * Constructor.
      *
      * @param  string $menu
@@ -50,6 +65,32 @@ class MenuBuilder implements Countable
     {
         $this->menu = $menu;
         $this->config = $config;
+    }
+
+    /**
+     * Set view factory instance.
+     * 
+     * @param ViewFactory $views
+     * @return $this
+     */
+    public function setViewFactory(ViewFactory $views)
+    {
+        $this->views = $views;
+
+        return $this;
+    }
+
+    /**
+     * Set view.
+     * 
+     * @param  string $view
+     * @return $this
+     */
+    public function setView($view)
+    {
+        $this->view = $view;
+
+        return $this;
     }
 
     /**
@@ -219,7 +260,9 @@ class MenuBuilder implements Countable
      */
     protected function formatUrl($url)
     {
-        return ! is_null($this->prefixUrl) ? $this->prefixUrl . $url : $url;
+        $uri = ! is_null($this->prefixUrl) ? $this->prefixUrl . $url : $url;
+            
+        return $uri == '/' ? '/' : ltrim(rtrim($uri, '/'), '/');
     }
 
     /**
@@ -321,6 +364,10 @@ class MenuBuilder implements Countable
      */
     public function render($presenter = null)
     {
+        if ( ! is_null($this->view)) {
+            return $this->renderView($presenter);
+        }
+
         if ($this->hasStyle($presenter)) {
             $this->setPresenterFromStyle($presenter);
         }
@@ -330,6 +377,16 @@ class MenuBuilder implements Countable
         }
 
         return $this->renderMenu();
+    }
+
+    /**
+     * Render menu via view presenter.
+     * 
+     * @return \Illuminate\View\View
+     */
+    public function renderView($presenter = null)
+    {
+        return $this->views->make($presenter ?: $this->view, ['items' => $this->items]);
     }
 
     /**
