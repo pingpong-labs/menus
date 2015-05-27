@@ -1,53 +1,49 @@
 <style type="text/css">
-    .nav li.dropdown ul.dropdown-menu li:HOVER ul.dropdown-menu li:HOVER.dropdown > ul.dropdown-menu,
-    .nav li.dropdown ul.dropdown-menu li:HOVER ul.dropdown-menu {
-        display: block;
-        position: absolute;
+    .dropdown-submenu {
+        position: relative;
+    }
+
+    .dropdown-submenu>.dropdown-menu {
+        top: 0;
         left: 100%;
-        -webkit-border-radius: 3px;
-        -moz-border-radius: 3px;
-        border-radius: 3px;
+        margin-top: -6px;
+        margin-left: -1px;
+        -webkit-border-radius: 0 6px 6px 6px;
+        -moz-border-radius: 0 6px 6px;
+        border-radius: 0 6px 6px 6px;
     }
 
-    .nav li.dropdown ul.dropdown-menu li:HOVER ul.dropdown-menu li.dropdown > ul.dropdown-menu,
-    .nav li.dropdown ul.dropdown-menu ul.dropdown-menu {
-        display: none;
+    .dropdown-submenu:hover>.dropdown-menu {
+        display: block;
+    }
+
+    .dropdown-submenu>a:after {
+        display: block;
+        content: " ";
         float: right;
-        position: relative;
-        top: auto;
-        margin-top: -30px;
+        width: 0;
+        height: 0;
+        border-color: transparent;
+        border-style: solid;
+        border-width: 5px 0 5px 5px;
+        border-left-color: #ccc;
+        margin-top: 5px;
+        margin-right: -10px;
     }
 
-    .nav li.dropdown ul.dropdown-menu .dropdown-menu::before {
-        content: '';
-        display: inline-block;
-        border-top: 9px solid transparent;
-        border-bottom: 9px solid transparent;
-        border-right: 11px solid #CCC;
-        border-right-color: rgba(0, 0, 0, 0.2);
-        position: absolute;
-        top: 8px;
-        left: -12px;
+    .dropdown-submenu:hover>a:after {
+        border-left-color: #fff;
     }
 
-    .nav li.dropdown ul.dropdown-menu .dropdown-menu::after {
-        content: '';
-        display: inline-block;
-        border-top: 9px solid transparent;
-        border-bottom: 9px solid transparent;
-        border-right: 11px solid #FFF;
-        position: absolute;
-        top: 8px;
-        left: -10px;
+    .dropdown-submenu.pull-left {
+        float: none;
     }
 
-    .caret-right {
-        border-bottom: 5px solid transparent;
-        border-right: 5px solid transparent;
-        border-top: 5px solid transparent;
-        border-left: 5px solid;
-        top: 5px;
-        position: relative;
-        left: 5px;
+    .dropdown-submenu.pull-left>.dropdown-menu {
+        left: -100%;
+        margin-left: 10px;
+        -webkit-border-radius: 6px 0 6px 6px;
+        -moz-border-radius: 6px 0 6px 6px;
+        border-radius: 6px 0 6px 6px;
     }
 </style>
