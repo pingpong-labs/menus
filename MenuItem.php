@@ -34,7 +34,7 @@ class MenuItem implements ArrayableContract
         'icon',
         'parent',
         'attributes',
-        'active', 
+        'active',
         'order'
     );
     
@@ -168,7 +168,7 @@ class MenuItem implements ArrayableContract
 
     /**
      * Add new child item.
-     * 
+     *
      * @param  array $properties
      * @return $this
      */
@@ -236,8 +236,7 @@ class MenuItem implements ArrayableContract
     public function getChilds()
     {
         if (config('menus.ordering')) {
-            return collect($this->childs)->sortBy(function ($child)
-            {
+            return collect($this->childs)->sortBy(function ($child) {
                 return $child->order;
             })->all();
         }

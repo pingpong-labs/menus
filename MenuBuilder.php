@@ -44,14 +44,14 @@ class MenuBuilder implements Countable
 
     /**
      * The name of view presenter.
-     * 
+     *
      * @var null
      */
     protected $view = null;
 
     /**
      * The laravel view factory instance.
-     * 
+     *
      * @var \Illumiate\View\Factory
      */
     protected $views;
@@ -69,7 +69,7 @@ class MenuBuilder implements Countable
 
     /**
      * Set view factory instance.
-     * 
+     *
      * @param ViewFactory $views
      * @return $this
      */
@@ -82,7 +82,7 @@ class MenuBuilder implements Countable
 
     /**
      * Set view.
-     * 
+     *
      * @param  string $view
      * @return $this
      */
@@ -360,7 +360,7 @@ class MenuBuilder implements Countable
      */
     public function render($presenter = null)
     {
-        if ( ! is_null($this->view)) {
+        if (! is_null($this->view)) {
             return $this->renderView($presenter);
         }
 
@@ -377,7 +377,7 @@ class MenuBuilder implements Countable
 
     /**
      * Render menu via view presenter.
-     * 
+     *
      * @return \Illuminate\View\View
      */
     public function renderView($presenter = null)
@@ -389,7 +389,7 @@ class MenuBuilder implements Countable
 
     /**
      * Get original items.
-     * 
+     *
      * @return array
      */
     public function getItems()
@@ -399,7 +399,7 @@ class MenuBuilder implements Countable
 
     /**
      * Get menu items as laravel collection instance.
-     * 
+     *
      * @return \Illuminate\Support\Collection
      */
     public function toCollection()
@@ -409,7 +409,7 @@ class MenuBuilder implements Countable
 
     /**
      * Get menu items as array.
-     * 
+     *
      * @return array
      */
     public function toArray()
@@ -419,14 +419,13 @@ class MenuBuilder implements Countable
 
     /**
      * Get menu items and order it by 'order' key.
-     * 
+     *
      * @return array
      */
     public function getOrderedItems()
     {
         if (config('menus.ordering')) {
-            return $this->toCollection()->sortBy(function ($item)
-            {
+            return $this->toCollection()->sortBy(function ($item) {
                 return $item->order;
             })->all();
         }
