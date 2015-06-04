@@ -9,6 +9,8 @@ return array(
         'nav-tab' => 'Pingpong\Menus\Presenters\Bootstrap\NavTabPresenter',
         'sidebar' => 'Pingpong\Menus\Presenters\Bootstrap\SidebarMenuPresenter',
         'navmenu' => 'Pingpong\Menus\Presenters\Bootstrap\NavMenuPresenter',
-    )
+    ),
+
+    'ordering' => false
 
 );

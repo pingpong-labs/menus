@@ -12,7 +12,7 @@ class MenuItem implements ArrayableContract
      *
      * @var array
      */
-    protected $properties;
+    protected $properties = [];
 
     /**
      * The child collections for current menu item.
@@ -26,8 +26,18 @@ class MenuItem implements ArrayableContract
      *
      * @var array
      */
-    protected $fillable = array('url', 'route', 'title', 'name', 'icon', 'parent', 'attributes', 'active');
-
+    protected $fillable = array(
+        'url',
+        'route',
+        'title',
+        'name',
+        'icon',
+        'parent',
+        'attributes',
+        'active', 
+        'order'
+    );
+    
     /**
      * Constructor.
      *
@@ -118,9 +128,9 @@ class MenuItem implements ArrayableContract
      * @param callable $callback
      * @return $this
      */
-    public function dropdown($title, \Closure $callback)
+    public function dropdown($title, $order = 0, \Closure $callback)
     {
-        $child = static::make(compact('title'));
+        $child = static::make(compact('title', 'order'));
 
         call_user_func($callback, $child);
 
@@ -138,17 +148,9 @@ class MenuItem implements ArrayableContract
      * @param array $attributes
      * @return array
      */
-    public function route($route, $title, $parameters = array(), $attributes = array())
+    public function route($route, $title, $parameters = array(), $order = 0, $attributes = array())
     {
-        $item = array(
-            'route' => array($route, $parameters),
-            'title' => $title,
-            'attributes' => $attributes,
-        );
-
-        $this->childs[] = static::make($item);
-
-        return $this;
+        return $this->add(compact('url', 'title', 'order', 'attributes'));
     }
 
     /**
@@ -159,15 +161,20 @@ class MenuItem implements ArrayableContract
      * @param array $attributes
      * @return array
      */
-    public function url($url, $title, $attributes = array())
+    public function url($url, $title, $order = 0, $attributes = array())
     {
-        $item = array(
-            'url' => $url,
-            'title' => $title,
-            'attributes' => $attributes
-        );
+        return $this->add(compact('url', 'title', 'order', 'attributes'));
+    }
 
-        $this->childs[] = static::make($item);
+    /**
+     * Add new child item.
+     * 
+     * @param  array $properties
+     * @return $this
+     */
+    public function add(array $properties)
+    {
+        $this->childs[] = static::make($properties);
 
         return $this;
     }
@@ -228,6 +235,13 @@ class MenuItem implements ArrayableContract
      */
     public function getChilds()
     {
+        if (config('menus.ordering')) {
+            return collect($this->childs)->sortBy(function ($child)
+            {
+                return $child->order;
+            })->all();
+        }
+
         return $this->childs;
     }
 
@@ -279,9 +293,11 @@ class MenuItem implements ArrayableContract
      */
     public function getAttributes()
     {
-        array_forget($this->attributes, ['active', 'icon']);
+        $attributes = $this->attributes;
 
-        return HTML::attributes($this->attributes);
+        array_forget($attributes, ['active', 'icon']);
+
+        return HTML::attributes($attributes);
     }
 
     /**
