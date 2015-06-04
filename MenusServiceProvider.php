@@ -43,7 +43,7 @@ class MenusServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerIlluminateHtml();
+        $this->registerHtmlPackage();
 
         $this->app['menus'] = $this->app->share(function ($app) {
             return new Menu($app['view'], $app['config']);
@@ -55,7 +55,7 @@ class MenusServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function registerIlluminateHtml()
+    protected function registerHtmlPackage()
     {
         $this->app->register('Collective\Html\HtmlServiceProvider');
 
