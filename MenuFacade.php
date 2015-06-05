@@ -1,10 +1,11 @@
-<?php namespace Pingpong\Menus;
+<?php
+
+namespace Pingpong\Menus;
 
 use Illuminate\Support\Facades\Facade;
 
 class MenuFacade extends Facade
 {
-
     /**
      * Get the registered name of the component.
      *

@@ -1,10 +1,11 @@
-<?php namespace Pingpong\Menus\Presenters;
+<?php
+
+namespace Pingpong\Menus\Presenters;
 
 use Pingpong\Menus\MenuItem;
 
 interface PresenterInterface
 {
-
     /**
      * Get open tag wrapper.
      *
@@ -22,7 +23,8 @@ interface PresenterInterface
     /**
      * Get menu tag without dropdown wrapper.
      *
-     * @param  \Pingpong\Menus\MenuItem $item
+     * @param \Pingpong\Menus\MenuItem $item
+     *
      * @return string
      */
     public function getMenuWithoutDropdownWrapper($item);
@@ -38,6 +40,7 @@ interface PresenterInterface
      * Get divider tag wrapper.
      *
      * @param \Pingpong\Menus\MenuItem $item
+     *
      * @return mixed
      */
     public function getHeaderWrapper($item);
@@ -45,7 +48,8 @@ interface PresenterInterface
     /**
      * Get menu tag with dropdown wrapper.
      *
-     * @param  \Pingpong\Menus\MenuItem $item
+     * @param \Pingpong\Menus\MenuItem $item
+     *
      * @return string
      */
     public function getMenuWithDropDownWrapper($item);
@@ -53,7 +57,8 @@ interface PresenterInterface
     /**
      * Get child menu items.
      *
-     * @param  \Pingpong\Menus\MenuItem $item
+     * @param \Pingpong\Menus\MenuItem $item
+     *
      * @return string
      */
     public function getChildMenuItems(MenuItem $item);

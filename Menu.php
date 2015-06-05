@@ -1,4 +1,6 @@
-<?php namespace Pingpong\Menus;
+<?php
+
+namespace Pingpong\Menus;
 
 use Closure;
 use Countable;
@@ -7,7 +9,6 @@ use Illuminate\View\Factory;
 
 class Menu implements Countable
 {
-
     /**
      * The menus collections.
      *
@@ -18,7 +19,7 @@ class Menu implements Countable
     /**
      * The constructor.
      *
-     * @param Factory $views
+     * @param Factory    $views
      * @param Repository $config
      */
     public function __construct(Factory $views, Repository $config)
@@ -30,7 +31,8 @@ class Menu implements Countable
     /**
      * Make new menu.
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return \Pingpong\Menus\MenuBuilder
      */
     public function make($name)
@@ -38,7 +40,7 @@ class Menu implements Countable
         $builder = new MenuBuilder($name, $this->config);
 
         $builder->setViewFactory($this->views);
-        
+
         $this->menus[$name] = $builder;
 
         return $builder;
@@ -47,8 +49,9 @@ class Menu implements Countable
     /**
      * Create new menu.
      *
-     * @param  string $name
-     * @param  Callable $resolver
+     * @param string   $name
+     * @param Callable $resolver
+     *
      * @return \Pingpong\Menus\MenuBuilder
      */
     public function create($name, Closure $resolver)
@@ -61,8 +64,9 @@ class Menu implements Countable
     /**
      * Check if the menu exists.
      *
-     * @param  string $name
-     * @return boolean
+     * @param string $name
+     *
+     * @return bool
      */
     public function has($name)
     {
@@ -72,7 +76,8 @@ class Menu implements Countable
     /**
      * Get instance of the given menu if exists.
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return string|null
      */
     public function instance($name)
@@ -83,8 +88,9 @@ class Menu implements Countable
     /**
      * Render the menu tag by given name.
      *
-     * @param  string $name
-     * @param  string $presenter
+     * @param string $name
+     * @param string $presenter
+     *
      * @return string|null
      */
     public function get($name, $presenter = null)
@@ -97,6 +103,7 @@ class Menu implements Countable
      *
      * @param $name
      * @param null $presenter
+     *
      * @return string
      */
     public function render($name, $presenter = null)
@@ -136,8 +143,6 @@ class Menu implements Countable
 
     /**
      * Empty the current menus.
-     *
-     * @return void
      */
     public function destroy()
     {

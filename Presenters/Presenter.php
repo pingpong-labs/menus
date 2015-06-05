@@ -1,10 +1,11 @@
-<?php namespace Pingpong\Menus\Presenters;
+<?php
+
+namespace Pingpong\Menus\Presenters;
 
 use Pingpong\Menus\MenuItem;
 
 abstract class Presenter implements PresenterInterface
 {
-
     /**
      * Get open tag wrapper.
      *
@@ -26,7 +27,8 @@ abstract class Presenter implements PresenterInterface
     /**
      * Get menu tag without dropdown wrapper.
      *
-     * @param  \Pingpong\Menus\MenuItem $item
+     * @param \Pingpong\Menus\MenuItem $item
+     *
      * @return string
      */
     public function getMenuWithoutDropdownWrapper($item)
@@ -45,7 +47,8 @@ abstract class Presenter implements PresenterInterface
     /**
      * Get header dropdown tag wrapper.
      *
-     * @param  \Pingpong\Menus\MenuItem $item
+     * @param \Pingpong\Menus\MenuItem $item
+     *
      * @return string
      */
     public function getHeaderWrapper($item)
@@ -55,7 +58,8 @@ abstract class Presenter implements PresenterInterface
     /**
      * Get menu tag with dropdown wrapper.
      *
-     * @param  \Pingpong\Menus\MenuItem $item
+     * @param \Pingpong\Menus\MenuItem $item
+     *
      * @return string
      */
     public function getMenuWithDropDownWrapper($item)
@@ -65,7 +69,8 @@ abstract class Presenter implements PresenterInterface
     /**
      * Get multi level dropdown menu wrapper.
      *
-     * @param  \Pingpong\Menus\MenuItem $item
+     * @param \Pingpong\Menus\MenuItem $item
+     *
      * @return string
      */
     public function getMultiLevelDropdownWrapper($item)
@@ -75,7 +80,8 @@ abstract class Presenter implements PresenterInterface
     /**
      * Get child menu items.
      *
-     * @param  \Pingpong\Menus\MenuItem $item
+     * @param \Pingpong\Menus\MenuItem $item
+     *
      * @return string
      */
     public function getChildMenuItems(MenuItem $item)

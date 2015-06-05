@@ -1,4 +1,6 @@
-<?php namespace Pingpong\Menus;
+<?php
+
+namespace Pingpong\Menus;
 
 use Illuminate\Contracts\Support\Arrayable as ArrayableContract;
 use Collective\Html\HtmlFacade as HTML;
@@ -6,7 +8,6 @@ use Illuminate\Support\Facades\Request;
 
 class MenuItem implements ArrayableContract
 {
-
     /**
      * Array properties.
      *
@@ -35,9 +36,9 @@ class MenuItem implements ArrayableContract
         'parent',
         'attributes',
         'active',
-        'order'
+        'order',
     );
-    
+
     /**
      * Constructor.
      *
@@ -53,12 +54,13 @@ class MenuItem implements ArrayableContract
      * Set the icon property when the icon is defined in the link attributes.
      *
      * @param array $properties
+     *
      * @return array
      */
     protected static function setIconAttribute(array $properties)
     {
         $icon = array_get($properties, 'attributes.icon');
-        if (! is_null($icon)) {
+        if (!is_null($icon)) {
             $properties['icon'] = $icon;
 
             array_forget($properties, 'attributes.icon');
@@ -73,6 +75,7 @@ class MenuItem implements ArrayableContract
      * Get random name.
      *
      * @param array $attributes
+     *
      * @return string
      */
     protected static function getRandomName(array $attributes)
@@ -84,6 +87,7 @@ class MenuItem implements ArrayableContract
      * Create new static instance.
      *
      * @param array $properties
+     *
      * @return static
      */
     public static function make(array $properties)
@@ -96,8 +100,7 @@ class MenuItem implements ArrayableContract
     /**
      * Fill the attributes.
      *
-     * @param  array $attributes
-     * @return void
+     * @param array $attributes
      */
     public function fill($attributes)
     {
@@ -112,6 +115,7 @@ class MenuItem implements ArrayableContract
      * Create new menu child item using array.
      *
      * @param $attributes
+     *
      * @return $this
      */
     public function child($attributes)
@@ -126,6 +130,7 @@ class MenuItem implements ArrayableContract
      *
      * @param $title
      * @param callable $callback
+     *
      * @return $this
      */
     public function dropdown($title, $order = 0, \Closure $callback)
@@ -146,6 +151,7 @@ class MenuItem implements ArrayableContract
      * @param $title
      * @param array $parameters
      * @param array $attributes
+     *
      * @return array
      */
     public function route($route, $title, $parameters = array(), $order = 0, $attributes = array())
@@ -159,6 +165,7 @@ class MenuItem implements ArrayableContract
      * @param $url
      * @param $title
      * @param array $attributes
+     *
      * @return array
      */
     public function url($url, $title, $order = 0, $attributes = array())
@@ -169,7 +176,8 @@ class MenuItem implements ArrayableContract
     /**
      * Add new child item.
      *
-     * @param  array $properties
+     * @param array $properties
+     *
      * @return $this
      */
     public function add(array $properties)
@@ -205,13 +213,14 @@ class MenuItem implements ArrayableContract
      * Add dropdown header.
      *
      * @param $title
+     *
      * @return $this
      */
     public function addHeader($title)
     {
         $this->childs[] = static::make(array(
             'name' => 'header',
-            'title' => $title
+            'title' => $title,
         ));
 
         return $this;
@@ -221,6 +230,7 @@ class MenuItem implements ArrayableContract
      * Same with "addHeader" method.
      *
      * @param $title
+     *
      * @return $this
      */
     public function header($title)
@@ -251,7 +261,7 @@ class MenuItem implements ArrayableContract
      */
     public function getUrl()
     {
-        return ! empty($this->route) ? route($this->route[0], $this->route[1]) : url($this->url);
+        return !empty($this->route) ? route($this->route[0], $this->route[1]) : url($this->url);
     }
 
     /**
@@ -267,12 +277,13 @@ class MenuItem implements ArrayableContract
     /**
      * Get icon.
      *
-     * @param  null|string $default
+     * @param null|string $default
+     *
      * @return string
      */
     public function getIcon($default = null)
     {
-        return ! is_null($this->icon) ? '<i class="' . $this->icon . '"></i>' : $default;
+        return !is_null($this->icon) ? '<i class="'.$this->icon.'"></i>' : $default;
     }
 
     /**
@@ -302,7 +313,7 @@ class MenuItem implements ArrayableContract
     /**
      * Check is the current item divider.
      *
-     * @return boolean
+     * @return bool
      */
     public function isDivider()
     {
@@ -323,6 +334,7 @@ class MenuItem implements ArrayableContract
      * Check is the current item divider.
      *
      * @param $name
+     *
      * @return bool
      */
     public function is($name)
@@ -333,11 +345,11 @@ class MenuItem implements ArrayableContract
     /**
      * Check is the current item has sub menu .
      *
-     * @return boolean
+     * @return bool
      */
     public function hasSubMenu()
     {
-        return ! empty($this->childs);
+        return !empty($this->childs);
     }
 
     /**
@@ -367,7 +379,7 @@ class MenuItem implements ArrayableContract
     /**
      * Get active state from child menu items.
      *
-     * @return boolean
+     * @return bool
      */
     public function getActiveStateFromChilds()
     {
@@ -389,7 +401,7 @@ class MenuItem implements ArrayableContract
     /**
      * Get inactive state.
      *
-     * @return boolean
+     * @return bool
      */
     public function inactive()
     {
@@ -461,7 +473,7 @@ class MenuItem implements ArrayableContract
      */
     protected function hasRoute()
     {
-        return ! empty($this->route);
+        return !empty($this->route);
     }
 
     /**
@@ -471,7 +483,7 @@ class MenuItem implements ArrayableContract
      */
     protected function getActiveStateFromRoute()
     {
-        return Request::is(str_replace(url() . '/', '', $this->getUrl()));
+        return Request::is(str_replace(url().'/', '', $this->getUrl()));
     }
 
     /**
@@ -497,7 +509,8 @@ class MenuItem implements ArrayableContract
     /**
      * Get property.
      *
-     * @param  string $key
+     * @param string $key
+     *
      * @return string|null
      */
     public function __get($key)

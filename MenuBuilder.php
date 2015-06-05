@@ -1,4 +1,6 @@
-<?php namespace Pingpong\Menus;
+<?php
+
+namespace Pingpong\Menus;
 
 use Countable;
 use Illuminate\Config\Repository;
@@ -6,7 +8,6 @@ use Illuminate\View\Factory as ViewFactory;
 
 class MenuBuilder implements Countable
 {
-
     /**
      * Menu name.
      *
@@ -59,7 +60,7 @@ class MenuBuilder implements Countable
     /**
      * Constructor.
      *
-     * @param  string $menu
+     * @param string $menu
      */
     public function __construct($menu, Repository $config)
     {
@@ -71,6 +72,7 @@ class MenuBuilder implements Countable
      * Set view factory instance.
      *
      * @param ViewFactory $views
+     *
      * @return $this
      */
     public function setViewFactory(ViewFactory $views)
@@ -83,7 +85,8 @@ class MenuBuilder implements Countable
     /**
      * Set view.
      *
-     * @param  string $view
+     * @param string $view
+     *
      * @return $this
      */
     public function setView($view)
@@ -97,6 +100,7 @@ class MenuBuilder implements Countable
      * Set Prefix URL.
      *
      * @param string $prefixUrl
+     *
      * @return $this
      */
     public function setPrefixUrl($prefixUrl)
@@ -119,8 +123,7 @@ class MenuBuilder implements Countable
     /**
      * Set new presenter class.
      *
-     * @param  string $presenter
-     * @return void
+     * @param string $presenter
      */
     public function setPresenter($presenter)
     {
@@ -134,13 +137,14 @@ class MenuBuilder implements Countable
      */
     public function getPresenter()
     {
-        return new $this->presenter;
+        return new $this->presenter();
     }
 
     /**
      * Set new presenter class by given style name.
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return self
      */
     public function style($name)
@@ -156,6 +160,7 @@ class MenuBuilder implements Countable
      * Determine if the given name in the presenter style.
      *
      * @param $name
+     *
      * @return bool
      */
     public function hasStyle($name)
@@ -177,6 +182,7 @@ class MenuBuilder implements Countable
      * Get the presenter class name by given alias name.
      *
      * @param $name
+     *
      * @return mixed
      */
     public function getStyle($name)
@@ -199,7 +205,8 @@ class MenuBuilder implements Countable
     /**
      * Add new child menu.
      *
-     * @param  array $attributes
+     * @param array $attributes
+     *
      * @return \Pingpong\Menus\MenuItem
      */
     public function add(array $attributes = array())
@@ -216,7 +223,8 @@ class MenuBuilder implements Countable
      *
      * @param $title
      * @param callable $callback
-     * @param array $attributes
+     * @param array    $attributes
+     *
      * @return $this
      */
     public function dropdown($title, \Closure $callback, $order = 0, array $attributes = array())
@@ -237,6 +245,7 @@ class MenuBuilder implements Countable
      * @param $title
      * @param array $parameters
      * @param array $attributes
+     *
      * @return static
      */
     public function route($route, $title, $parameters = array(), $attributes = array())
@@ -253,13 +262,14 @@ class MenuBuilder implements Countable
     /**
      * Format URL.
      *
-     * @param  string $url
+     * @param string $url
+     *
      * @return string
      */
     protected function formatUrl($url)
     {
-        $uri = ! is_null($this->prefixUrl) ? $this->prefixUrl . $url : $url;
-            
+        $uri = !is_null($this->prefixUrl) ? $this->prefixUrl.$url : $url;
+
         return $uri == '/' ? '/' : ltrim(rtrim($uri, '/'), '/');
     }
 
@@ -269,6 +279,7 @@ class MenuBuilder implements Countable
      * @param $url
      * @param $title
      * @param array $attributes
+     *
      * @return static
      */
     public function url($url, $title, $order = 0, $attributes = array())
@@ -303,7 +314,7 @@ class MenuBuilder implements Countable
     {
         $this->items[] = new MenuItem(array(
             'name' => 'header',
-            'title' => $title
+            'title' => $title,
         ));
 
         return $this;
@@ -312,7 +323,8 @@ class MenuBuilder implements Countable
     /**
      * Alias for "addHeader" method.
      *
-     * @param  string $title
+     * @param string $title
+     *
      * @return $this
      */
     public function header($title)
@@ -342,8 +354,6 @@ class MenuBuilder implements Countable
 
     /**
      * Empty the current menu items.
-     *
-     * @return void
      */
     public function destroy()
     {
@@ -355,12 +365,13 @@ class MenuBuilder implements Countable
     /**
      * Render the menu to HTML tag.
      *
-     * @param  string $presenter
+     * @param string $presenter
+     *
      * @return string
      */
     public function render($presenter = null)
     {
-        if (! is_null($this->view)) {
+        if (!is_null($this->view)) {
             return $this->renderView($presenter);
         }
 
@@ -368,7 +379,7 @@ class MenuBuilder implements Countable
             $this->setPresenterFromStyle($presenter);
         }
 
-        if (! is_null($presenter) && ! $this->hasStyle($presenter)) {
+        if (!is_null($presenter) && !$this->hasStyle($presenter)) {
             $this->setPresenter($presenter);
         }
 
@@ -383,7 +394,7 @@ class MenuBuilder implements Countable
     public function renderView($presenter = null)
     {
         return $this->views->make($presenter ?: $this->view, [
-            'items' => $this->getOrderedItems()
+            'items' => $this->getOrderedItems(),
         ]);
     }
 
