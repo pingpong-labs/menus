@@ -1,11 +1,12 @@
-<?php namespace Pingpong\Menus;
+<?php
+
+namespace Pingpong\Menus;
 
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 
 class MenusServiceProvider extends ServiceProvider
 {
-
     /**
      * Indicates if loading of the provider is deferred.
      *
@@ -15,8 +16,6 @@ class MenusServiceProvider extends ServiceProvider
 
     /**
      * Bootstrap the application events.
-     *
-     * @return void
      */
     public function boot()
     {
@@ -26,8 +25,6 @@ class MenusServiceProvider extends ServiceProvider
 
     /**
      * Require the menus file if that file is exists.
-     *
-     * @return void
      */
     public function registerMenusFile()
     {
@@ -38,8 +35,6 @@ class MenusServiceProvider extends ServiceProvider
 
     /**
      * Register the service provider.
-     *
-     * @return void
      */
     public function register()
     {
@@ -52,8 +47,6 @@ class MenusServiceProvider extends ServiceProvider
 
     /**
      * Register "iluminate/html" package.
-     *
-     * @return void
      */
     protected function registerHtmlPackage()
     {
@@ -79,20 +72,18 @@ class MenusServiceProvider extends ServiceProvider
 
     /**
      * Register package's namespaces.
-     *
-     * @return void
      */
     protected function registerNamespaces()
     {
-        $this->mergeConfigFrom(__DIR__ . '/src/config/config.php', 'menus');
-        $this->loadViewsFrom(__DIR__ . '/src/views', 'menus');
+        $this->mergeConfigFrom(__DIR__.'/src/config/config.php', 'menus');
+        $this->loadViewsFrom(__DIR__.'/src/views', 'menus');
 
         $this->publishes([
-            __DIR__ . '/src/config/config.php' => config_path('menus.php'),
+            __DIR__.'/src/config/config.php' => config_path('menus.php'),
         ], 'config');
 
         $this->publishes([
-            __DIR__ . '/src/views' => base_path('resources/views/vendor/pingpong/menus'),
+            __DIR__.'/src/views' => base_path('resources/views/vendor/pingpong/menus'),
         ], 'views');
     }
 }

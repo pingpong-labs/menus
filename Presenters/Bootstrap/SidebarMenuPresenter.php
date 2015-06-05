@@ -1,10 +1,11 @@
-<?php namespace Pingpong\Menus\Presenters\Bootstrap;
+<?php
+
+namespace Pingpong\Menus\Presenters\Bootstrap;
 
 use Pingpong\Menus\Presenters\Presenter;
 
 class SidebarMenuPresenter extends Presenter
 {
-
     /**
      * Get open tag wrapper.
      *
@@ -28,18 +29,19 @@ class SidebarMenuPresenter extends Presenter
     /**
      * Get menu tag without dropdown wrapper.
      *
-     * @param  \Pingpong\Menus\MenuItem $item
+     * @param \Pingpong\Menus\MenuItem $item
+     *
      * @return string
      */
     public function getMenuWithoutDropdownWrapper($item)
     {
-        return '<li' . $this->getActiveState($item) . '>
-			<a href="' . $item->getUrl() . '" ' . $item->getAttributes() . '>'
-        . $item->getIcon() . ' ' . $item->title . '</a></li>' . PHP_EOL;
+        return '<li'.$this->getActiveState($item).'>
+			<a href="'.$item->getUrl().'" '.$item->getAttributes().'>'
+        .$item->getIcon().' '.$item->title.'</a></li>'.PHP_EOL;
     }
 
     /**
-     * {@inheritdoc }
+     * {@inheritdoc }.
      */
     public function getActiveState($item, $state = ' class="active"')
     {
@@ -51,6 +53,7 @@ class SidebarMenuPresenter extends Presenter
      *
      * @param $item
      * @param string $state
+     *
      * @return null|string
      */
     public function getActiveStateOnChild($item, $state = 'active')
@@ -59,7 +62,7 @@ class SidebarMenuPresenter extends Presenter
     }
 
     /**
-     * {@inheritdoc }
+     * {@inheritdoc }.
      */
     public function getDividerWrapper()
     {
@@ -67,40 +70,41 @@ class SidebarMenuPresenter extends Presenter
     }
 
     /**
-     * {@inheritdoc }
+     * {@inheritdoc }.
      */
     public function getHeaderWrapper($item)
     {
-        return '<li class="dropdown-header">' . $item->title . '</li>';
+        return '<li class="dropdown-header">'.$item->title.'</li>';
     }
 
     /**
-     * {@inheritdoc }
+     * {@inheritdoc }.
      */
     public function getMenuWithDropDownWrapper($item)
     {
         $id = str_random();
 
         return '
-		<li class="' . $this->getActiveStateOnChild($item) . ' panel panel-default" id="dropdown">
-			<a data-toggle="collapse" href="#' . $id . '">
-				' . $item->getIcon() . ' ' . $item->title . ' <span class="caret"></span>
+		<li class="'.$this->getActiveStateOnChild($item).' panel panel-default" id="dropdown">
+			<a data-toggle="collapse" href="#'.$id.'">
+				'.$item->getIcon().' '.$item->title.' <span class="caret"></span>
 			</a>
-			<div id="' . $id . '" class="panel-collapse collapse ' . $this->getActiveStateOnChild($item, 'in') . '">
+			<div id="'.$id.'" class="panel-collapse collapse '.$this->getActiveStateOnChild($item, 'in').'">
 				<div class="panel-body">
 					<ul class="nav navbar-nav">
-						' . $this->getChildMenuItems($item) . '
+						'.$this->getChildMenuItems($item).'
 					</ul>
 				</div>
 			</div>
 		</li>
-		' . PHP_EOL;
+		'.PHP_EOL;
     }
 
     /**
      * Get multilevel menu wrapper.
      *
      * @param \Pingpong\Menus\MenuItem $item
+     *
      * @return string`
      */
     public function getMultiLevelDropdownWrapper($item)
