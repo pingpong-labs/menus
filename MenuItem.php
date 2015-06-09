@@ -156,7 +156,9 @@ class MenuItem implements ArrayableContract
      */
     public function route($route, $title, $parameters = array(), $order = 0, $attributes = array())
     {
-        return $this->add(compact('url', 'title', 'order', 'attributes'));
+        $route = array($route, $parameters);
+
+        return $this->add(compact('route', 'title', 'order', 'attributes'));
     }
 
     /**
