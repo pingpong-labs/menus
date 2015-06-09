@@ -58,6 +58,13 @@ class MenuBuilder implements Countable
     protected $views;
 
     /**
+     * Determine whether the ordering feature is enabled or not.
+     * 
+     * @var boolean
+     */
+    protected $ordering = false;
+
+    /**
      * Constructor.
      *
      * @param string $menu
@@ -248,11 +255,13 @@ class MenuBuilder implements Countable
      *
      * @return static
      */
-    public function route($route, $title, $parameters = array(), $attributes = array())
+    public function route($route, $title, $parameters = array(), $order = null, $attributes = array())
     {
         $route = array($route, $parameters);
 
-        $item = MenuItem::make(compact('route', 'title', 'parameters', 'attributes'));
+        $item = MenuItem::make(
+            compact('route', 'title', 'parameters', 'attributes', 'order')
+        );
 
         $this->items[] = $item;
 
@@ -296,11 +305,12 @@ class MenuBuilder implements Countable
     /**
      * Add new divider item.
      *
+     * @param int $order
      * @return \Pingpong\Menus\MenuItem
      */
-    public function addDivider()
+    public function addDivider($order = null)
     {
-        $this->items[] = new MenuItem(array('name' => 'divider'));
+        $this->items[] = new MenuItem(array('name' => 'divider', 'order' => $order));
 
         return $this;
     }
@@ -310,11 +320,12 @@ class MenuBuilder implements Countable
      *
      * @return \Pingpong\Menus\MenuItem
      */
-    public function addHeader($title)
+    public function addHeader($title, $order = null)
     {
         $this->items[] = new MenuItem(array(
             'name' => 'header',
             'title' => $title,
+            'order' => $order
         ));
 
         return $this;
@@ -429,13 +440,37 @@ class MenuBuilder implements Countable
     }
 
     /**
+     * Enable menu ordering.
+     * 
+     * @return self
+     */
+    public function enableOrdering()
+    {
+        $this->ordering = true;
+
+        return $this;
+    }
+
+    /**
+     * Disable menu ordering.
+     * 
+     * @return self
+     */
+    public function disableOrdering()
+    {
+        $this->ordering = true;
+
+        return $this;
+    }
+
+    /**
      * Get menu items and order it by 'order' key.
      *
      * @return array
      */
     public function getOrderedItems()
     {
-        if (config('menus.ordering')) {
+        if (config('menus.ordering') || $this->ordering) {
             return $this->toCollection()->sortBy(function ($item) {
                 return $item->order;
             })->all();
