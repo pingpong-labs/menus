@@ -59,7 +59,7 @@ class MenuBuilder implements Countable
 
     /**
      * Determine whether the ordering feature is enabled or not.
-     * 
+     *
      * @var boolean
      */
     protected $ordering = false;
@@ -73,6 +73,38 @@ class MenuBuilder implements Countable
     {
         $this->menu = $menu;
         $this->config = $config;
+    }
+
+    /**
+     * Find menu item by given its title.
+     *
+     * @param  string        $title
+     * @param  callable|null $callback
+     * @return mixed
+     */
+    public function whereTitle($title, callable $callback = null)
+    {
+        $item = $this->findBy('title', $title);
+
+        if (is_callable($callback)) {
+            return call_user_func($callback, $item);
+        }
+
+        return $item;
+    }
+
+    /**
+     * Find menu item by given key and value.
+     *
+     * @param  string $key
+     * @param  string $value
+     * @return \Pingpong\Menus\MenuItem
+     */
+    public function findBy($key, $value)
+    {
+        return collect($this->items)->filter(function ($item) use ($key, $value) {
+            return $item->{$key} == $value;
+        })->first();
     }
 
     /**
@@ -441,7 +473,7 @@ class MenuBuilder implements Countable
 
     /**
      * Enable menu ordering.
-     * 
+     *
      * @return self
      */
     public function enableOrdering()
@@ -453,7 +485,7 @@ class MenuBuilder implements Countable
 
     /**
      * Disable menu ordering.
-     * 
+     *
      * @return self
      */
     public function disableOrdering()
