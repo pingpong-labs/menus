@@ -192,11 +192,13 @@ class MenuItem implements ArrayableContract
     /**
      * Add new divider.
      *
+     * @param int $order
+     *
      * @return self
      */
-    public function addDivider()
+    public function addDivider($order = null)
     {
-        $this->childs[] = static::make(array('name' => 'divider'));
+        $this->childs[] = static::make(array('name' => 'divider', 'order' => $order));
 
         return $this;
     }
