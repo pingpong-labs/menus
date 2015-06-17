@@ -77,7 +77,7 @@ class MenuBuilder implements Countable
 
     /**
      * Get menu name.
-     * 
+     *
      * @return string
      */
     public function getName()
