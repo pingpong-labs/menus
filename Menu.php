@@ -47,6 +47,23 @@ class Menu implements Countable
     }
 
     /**
+     * Modify a specific menu.
+     * 
+     * @param  string   $name
+     * @param  Closure  $callback
+     * @return void
+     */
+    public function modify($name, Closure $callback)
+    {
+        $menu = collect($this->menus)->filter(function ($menu) use ($name) {
+            return $menu->getName() == $name;
+        })->first();
+
+        $callback($menu);
+    }
+
+
+    /**
      * Create new menu.
      *
      * @param string   $name
