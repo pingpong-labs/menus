@@ -76,16 +76,6 @@ class MenuBuilder implements Countable
     }
 
     /**
-     * Get menu name.
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->menu;
-    }
-
-    /**
      * Find menu item by given its title.
      *
      * @param  string        $title
