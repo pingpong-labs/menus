@@ -156,6 +156,16 @@ class MenuItem implements ArrayableContract
      */
     public function route($route, $title, $parameters = array(), $order = 0, $attributes = array())
     {
+        if (func_num_args() == 4) {
+            $arguments = func_get_args();
+
+            return $this->add([
+                'route' => [array_get($arguments, 0), array_get($arguments, 2)],
+                'title' => array_get($arguments, 1),
+                'attributes' => array_get($arguments, 3)
+            ]);
+        }
+
         $route = array($route, $parameters);
 
         return $this->add(compact('route', 'title', 'order', 'attributes'));
@@ -172,6 +182,16 @@ class MenuItem implements ArrayableContract
      */
     public function url($url, $title, $order = 0, $attributes = array())
     {
+        if (func_num_args() == 3) {
+            $arguments = func_get_args();
+
+            return $this->add([
+                'url' => array_get($arguments, 0),
+                'title' => array_get($arguments, 1),
+                'attributes' => array_get($arguments, 2)
+            ]);
+        }
+
         return $this->add(compact('url', 'title', 'order', 'attributes'));
     }
 
