@@ -204,9 +204,11 @@ class MenuItem implements ArrayableContract
      */
     public function add(array $properties)
     {
-        $this->childs[] = static::make($properties);
+        $item = static::make($properties);
 
-        return $this;
+        $this->childs[] = $item;
+
+        return $item;
     }
 
     /**
@@ -218,9 +220,11 @@ class MenuItem implements ArrayableContract
      */
     public function addDivider($order = null)
     {
-        $this->childs[] = static::make(array('name' => 'divider', 'order' => $order));
+        $item = static::make(array('name' => 'divider', 'order' => $order));
 
-        return $this;
+        $this->childs[] = $item;
+
+        return $item;
     }
 
     /**
@@ -242,12 +246,14 @@ class MenuItem implements ArrayableContract
      */
     public function addHeader($title)
     {
-        $this->childs[] = static::make(array(
+        $item = static::make(array(
             'name' => 'header',
             'title' => $title,
         ));
 
-        return $this;
+        $this->childs[] = $item;
+
+        return $item;
     }
 
     /**
