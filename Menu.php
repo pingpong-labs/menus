@@ -32,18 +32,13 @@ class Menu implements Countable
      * Make new menu.
      *
      * @param string $name
+     * @param Closure $callback
      *
      * @return \Pingpong\Menus\MenuBuilder
      */
-    public function make($name)
+    public function make($name, \Closure $callback)
     {
-        $builder = new MenuBuilder($name, $this->config);
-
-        $builder->setViewFactory($this->views);
-
-        $this->menus[$name] = $builder;
-
-        return $builder;
+        return $this->create($name, $callback);
     }
 
     /**
@@ -56,9 +51,13 @@ class Menu implements Countable
      */
     public function create($name, Closure $resolver)
     {
-        $menus = $this->make($name);
+        $builder = new MenuBuilder($name, $this->config);
 
-        return $resolver($menus);
+        $builder->setViewFactory($this->views);
+
+        $this->menus[$name] = $builder;
+
+        return $resolver($builder);
     }
 
     /**
