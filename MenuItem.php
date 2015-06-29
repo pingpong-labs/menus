@@ -193,7 +193,7 @@ class MenuItem implements ArrayableContract
      * Add new divider.
      *
      * @param int $order
-     * 
+     *
      * @return self
      */
     public function addDivider($order = null)
@@ -498,6 +498,19 @@ class MenuItem implements ArrayableContract
     protected function getActiveStateFromUrl()
     {
         return Request::is($this->url);
+    }
+
+    /**
+     * Set order value.
+     *
+     * @param  int $order
+     * @return self
+     */
+    public function order($order)
+    {
+        $this->order = $order;
+
+        return $this;
     }
 
     /**
