@@ -133,15 +133,26 @@ class MenuItem implements ArrayableContract
      *
      * @return $this
      */
-    public function dropdown($title, $order = 0, \Closure $callback)
+    public function dropdown($title, \Closure $callback, $order = 0, array $attributes = array())
     {
-        $child = static::make(compact('title', 'order'));
+        $properties = compact('title', 'order', 'attributes');
+
+        if (func_num_args() == 3) {
+            $arguments = func_get_args();
+            
+            $title = array_get($arguments, 0);
+            $attributes = array_get($arguments, 2);
+            
+            $properties = compact('title', 'attributes');
+        }
+
+        $child = static::make($properties);
 
         call_user_func($callback, $child);
 
         $this->childs[] = $child;
 
-        return $this;
+        return $child;
     }
 
     /**
