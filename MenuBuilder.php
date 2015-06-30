@@ -278,7 +278,18 @@ class MenuBuilder implements Countable
      */
     public function dropdown($title, \Closure $callback, $order = null, array $attributes = array())
     {
-        $item = MenuItem::make(compact('title', 'order') + $attributes);
+        $properties = compact('title', 'order', 'attributes');
+
+        if (func_num_args() == 3) {
+            $arguments = func_get_args();
+            
+            $title = array_get($arguments, 0);
+            $attributes = array_get($arguments, 2);
+            
+            $properties = compact('title', 'attributes');
+        }
+
+        $item = MenuItem::make($properties);
 
         call_user_func($callback, $item);
 
