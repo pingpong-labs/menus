@@ -284,7 +284,7 @@ class MenuBuilder implements Countable
 
         $this->items[] = $item;
 
-        return $this;
+        return $item;
     }
 
     /**
