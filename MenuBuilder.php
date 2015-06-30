@@ -276,7 +276,7 @@ class MenuBuilder implements Countable
      *
      * @return $this
      */
-    public function dropdown($title, \Closure $callback, $order = 0, array $attributes = array())
+    public function dropdown($title, \Closure $callback, $order = null, array $attributes = array())
     {
         $item = MenuItem::make(compact('title', 'order') + $attributes);
 
