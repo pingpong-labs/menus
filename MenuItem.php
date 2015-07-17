@@ -2,6 +2,7 @@
 
 namespace Pingpong\Menus;
 
+use Closure;
 use Illuminate\Contracts\Support\Arrayable as ArrayableContract;
 use Collective\Html\HtmlFacade as HTML;
 use Illuminate\Support\Facades\Request;
@@ -37,7 +38,15 @@ class MenuItem implements ArrayableContract
         'attributes',
         'active',
         'order',
+        'hideWhen'
     );
+
+    /**
+     * The hideWhen callback.
+     * 
+     * @var Closure
+     */
+    protected $hideWhen;
 
     /**
      * Constructor.
@@ -548,6 +557,33 @@ class MenuItem implements ArrayableContract
         $this->order = $order;
 
         return $this;
+    }
+
+    /**
+     * Set hide condition for current menu item.
+     * 
+     * @param  Closure
+     * @return boolean
+     */
+    public function hideWhen(Closure $callback)
+    {
+        $this->hideWhen = $callback;
+
+        return $this;
+    }
+
+    /**
+     * Determine whether the menu item is hidden.
+     * 
+     * @return boolean
+     */
+    public function hidden()
+    {
+        if (is_null($this->hideWhen)) {
+            return false;
+        }
+
+        return call_user_func($this->hideWhen) == true;
     }
 
     /**
