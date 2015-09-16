@@ -66,7 +66,7 @@ class MenuBuilder implements Countable
 
     /**
      * Resolved item binding map.
-     * 
+     *
      * @var array
      */
     protected $bindings = [];
@@ -260,7 +260,7 @@ class MenuBuilder implements Countable
 
     /**
      * Set the resolved item bindings
-     * 
+     *
      * @param array $arr
      */
     public function setBindings(array $bindings)
@@ -271,7 +271,7 @@ class MenuBuilder implements Countable
 
     /**
      * Resolves a key from the bindings array.
-     * 
+     *
      * @param  string|array $key
      * @return mixed
      */
@@ -290,12 +290,12 @@ class MenuBuilder implements Countable
                 }
             }
         }
-        return $key;   
+        return $key;
     }
 
     /**
      * Resolves an array of menu items properties.
-     * 
+     *
      * @param  array  &$items
      * @return void
      */

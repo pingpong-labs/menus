@@ -111,7 +111,7 @@ class Menu implements Countable
      */
     public function get($name, $presenter = null, $bindings = [])
     {
-        return $this->has($name) ? 
+        return $this->has($name) ?
             $this->menus[$name]->setBindings($bindings)->render($presenter) : null;
     }
 
