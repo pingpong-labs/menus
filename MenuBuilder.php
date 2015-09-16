@@ -483,6 +483,8 @@ class MenuBuilder implements Countable
      */
     public function render($presenter = null)
     {
+        $this->resolveItems($this->items);
+
         if (!is_null($this->view)) {
             return $this->renderView($presenter);
         }
@@ -505,8 +507,6 @@ class MenuBuilder implements Countable
      */
     public function renderView($presenter = null)
     {
-        $this->resolveItems($this->items);
-
         return $this->views->make($presenter ?: $this->view, [
             'items' => $this->getOrderedItems(),
         ]);
@@ -589,8 +589,6 @@ class MenuBuilder implements Countable
      */
     protected function renderMenu()
     {
-        $this->resolveItems($this->items);
-
         $presenter = $this->getPresenter();
         $menu = $presenter->getOpenTagWrapper();
 
