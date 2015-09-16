@@ -69,7 +69,7 @@ class MenuBuilder implements Countable
      *
      * @var array
      */
-    protected $bindings = [];
+    protected $bindings = array();
 
     /**
      * Constructor.
@@ -282,7 +282,7 @@ class MenuBuilder implements Countable
                 $key[$k] = $this->resolve($v);
             }
         } elseif (is_string($key)) {
-            $matches = [];
+            $matches = array();
             preg_match_all('/{[\s]*?([^\s]+)[\s]*?}/i', $key, $matches, PREG_SET_ORDER);
             foreach ($matches as $match) {
                 if (array_key_exists($match[1], $this->bindings)) {
@@ -305,7 +305,7 @@ class MenuBuilder implements Countable
             return $this->resolve($property) ?: $property;
         };
 
-        for ($i = 0; $i < count($items); $i ++) {
+        for ($i = 0; $i < count($items); $i++) {
             $items[$i]->fill(array_map($resolver, $items[$i]->getProperties()));
         }
     }

@@ -109,7 +109,7 @@ class Menu implements Countable
      *
      * @return string|null
      */
-    public function get($name, $presenter = null, $bindings = [])
+    public function get($name, $presenter = null, $bindings = array())
     {
         return $this->has($name) ?
             $this->menus[$name]->setBindings($bindings)->render($presenter) : null;
@@ -123,7 +123,7 @@ class Menu implements Countable
      *
      * @return string
      */
-    public function render($name, $presenter = null, $bindings = [])
+    public function render($name, $presenter = null, $bindings = array())
     {
         return $this->get($name, $presenter, $bindings);
     }
