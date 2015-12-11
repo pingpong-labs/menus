@@ -108,9 +108,10 @@ class Menu implements Countable
      *
      * @return string|null
      */
-    public function get($name, $presenter = null)
+    public function get($name, $presenter = null, $bindings = array())
     {
-        return $this->has($name) ? $this->menus[$name]->render($presenter) : null;
+        return $this->has($name) ?
+            $this->menus[$name]->setBindings($bindings)->render($presenter) : null;
     }
 
     /**
@@ -121,9 +122,9 @@ class Menu implements Countable
      *
      * @return string
      */
-    public function render($name, $presenter = null)
+    public function render($name, $presenter = null, $bindings = array())
     {
-        return $this->get($name, $presenter);
+        return $this->get($name, $presenter, $bindings);
     }
 
     /**

@@ -65,6 +65,13 @@ class MenuBuilder implements Countable
     protected $ordering = false;
 
     /**
+     * Resolved item binding map.
+     *
+     * @var array
+     */
+    protected $bindings = array();
+
+    /**
      * Constructor.
      *
      * @param string $menu
@@ -249,6 +256,58 @@ class MenuBuilder implements Countable
     public function setPresenterFromStyle($name)
     {
         $this->setPresenter($this->getStyle($name));
+    }
+
+    /**
+     * Set the resolved item bindings
+     *
+     * @param array $arr
+     */
+    public function setBindings(array $bindings)
+    {
+        $this->bindings = $bindings;
+        return $this;
+    }
+
+    /**
+     * Resolves a key from the bindings array.
+     *
+     * @param  string|array $key
+     * @return mixed
+     */
+    public function resolve($key)
+    {
+        if (is_array($key)) {
+            foreach ($key as $k => $v) {
+                $key[$k] = $this->resolve($v);
+            }
+        } elseif (is_string($key)) {
+            $matches = array();
+            preg_match_all('/{[\s]*?([^\s]+)[\s]*?}/i', $key, $matches, PREG_SET_ORDER);
+            foreach ($matches as $match) {
+                if (array_key_exists($match[1], $this->bindings)) {
+                    $key = preg_replace('/' . $match[0] . '/', $this->bindings[$match[1]], $key, 1);
+                }
+            }
+        }
+        return $key;
+    }
+
+    /**
+     * Resolves an array of menu items properties.
+     *
+     * @param  array  &$items
+     * @return void
+     */
+    protected function resolveItems(array &$items)
+    {
+        $resolver = function ($property) {
+            return $this->resolve($property) ?: $property;
+        };
+
+        for ($i = 0; $i < count($items); $i++) {
+            $items[$i]->fill(array_map($resolver, $items[$i]->getProperties()));
+        }
     }
 
     /**
@@ -455,6 +514,8 @@ class MenuBuilder implements Countable
      */
     public function render($presenter = null)
     {
+        $this->resolveItems($this->items);
+
         if (!is_null($this->view)) {
             return $this->renderView($presenter);
         }
