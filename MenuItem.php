@@ -2,6 +2,7 @@
 
 namespace Pingpong\Menus;
 
+use Closure;
 use Illuminate\Contracts\Support\Arrayable as ArrayableContract;
 use Collective\Html\HtmlFacade as HTML;
 use Illuminate\Support\Facades\Request;
@@ -37,7 +38,15 @@ class MenuItem implements ArrayableContract
         'attributes',
         'active',
         'order',
+        'hideWhen'
     );
+
+    /**
+     * The hideWhen callback.
+     * 
+     * @var Closure
+     */
+    protected $hideWhen;
 
     /**
      * Constructor.
@@ -133,15 +142,26 @@ class MenuItem implements ArrayableContract
      *
      * @return $this
      */
-    public function dropdown($title, $order = 0, \Closure $callback)
+    public function dropdown($title, \Closure $callback, $order = 0, array $attributes = array())
     {
-        $child = static::make(compact('title', 'order'));
+        $properties = compact('title', 'order', 'attributes');
+
+        if (func_num_args() == 3) {
+            $arguments = func_get_args();
+            
+            $title = array_get($arguments, 0);
+            $attributes = array_get($arguments, 2);
+            
+            $properties = compact('title', 'attributes');
+        }
+
+        $child = static::make($properties);
 
         call_user_func($callback, $child);
 
         $this->childs[] = $child;
 
-        return $this;
+        return $child;
     }
 
     /**
@@ -156,6 +176,16 @@ class MenuItem implements ArrayableContract
      */
     public function route($route, $title, $parameters = array(), $order = 0, $attributes = array())
     {
+        if (func_num_args() == 4) {
+            $arguments = func_get_args();
+
+            return $this->add([
+                'route' => [array_get($arguments, 0), array_get($arguments, 2)],
+                'title' => array_get($arguments, 1),
+                'attributes' => array_get($arguments, 3)
+            ]);
+        }
+
         $route = array($route, $parameters);
 
         return $this->add(compact('route', 'title', 'order', 'attributes'));
@@ -172,6 +202,16 @@ class MenuItem implements ArrayableContract
      */
     public function url($url, $title, $order = 0, $attributes = array())
     {
+        if (func_num_args() == 3) {
+            $arguments = func_get_args();
+
+            return $this->add([
+                'url' => array_get($arguments, 0),
+                'title' => array_get($arguments, 1),
+                'attributes' => array_get($arguments, 2)
+            ]);
+        }
+
         return $this->add(compact('url', 'title', 'order', 'attributes'));
     }
 
@@ -184,23 +224,27 @@ class MenuItem implements ArrayableContract
      */
     public function add(array $properties)
     {
-        $this->childs[] = static::make($properties);
+        $item = static::make($properties);
 
-        return $this;
+        $this->childs[] = $item;
+
+        return $item;
     }
 
     /**
      * Add new divider.
      *
      * @param int $order
-     * 
+     *
      * @return self
      */
     public function addDivider($order = null)
     {
-        $this->childs[] = static::make(array('name' => 'divider', 'order' => $order));
+        $item = static::make(array('name' => 'divider', 'order' => $order));
 
-        return $this;
+        $this->childs[] = $item;
+
+        return $item;
     }
 
     /**
@@ -222,12 +266,14 @@ class MenuItem implements ArrayableContract
      */
     public function addHeader($title)
     {
-        $this->childs[] = static::make(array(
+        $item = static::make(array(
             'name' => 'header',
             'title' => $title,
         ));
 
-        return $this;
+        $this->childs[] = $item;
+
+        return $item;
     }
 
     /**
@@ -498,6 +544,46 @@ class MenuItem implements ArrayableContract
     protected function getActiveStateFromUrl()
     {
         return Request::is($this->url);
+    }
+
+    /**
+     * Set order value.
+     *
+     * @param  int $order
+     * @return self
+     */
+    public function order($order)
+    {
+        $this->order = $order;
+
+        return $this;
+    }
+
+    /**
+     * Set hide condition for current menu item.
+     * 
+     * @param  Closure
+     * @return boolean
+     */
+    public function hideWhen(Closure $callback)
+    {
+        $this->hideWhen = $callback;
+
+        return $this;
+    }
+
+    /**
+     * Determine whether the menu item is hidden.
+     * 
+     * @return boolean
+     */
+    public function hidden()
+    {
+        if (is_null($this->hideWhen)) {
+            return false;
+        }
+
+        return call_user_func($this->hideWhen) == true;
     }
 
     /**

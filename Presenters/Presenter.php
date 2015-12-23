@@ -88,6 +88,10 @@ abstract class Presenter implements PresenterInterface
     {
         $results = '';
         foreach ($item->getChilds() as $child) {
+            if ($child->hidden()) {
+                continue;
+            }
+            
             if ($child->hasSubMenu()) {
                 $results .= $this->getMultiLevelDropdownWrapper($child);
             } elseif ($child->isHeader()) {
