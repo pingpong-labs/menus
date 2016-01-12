@@ -321,7 +321,7 @@ class MenuItem implements ArrayableContract
      */
     public function getRequest()
     {
-        return ltrim(str_replace(url(), '', $this->getUrl()), '/');
+        return ltrim(str_replace(url('/'), '', $this->getUrl()), '/');
     }
 
     /**
