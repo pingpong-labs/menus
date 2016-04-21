@@ -533,7 +533,7 @@ class MenuItem implements ArrayableContract
      */
     protected function getActiveStateFromRoute()
     {
-        return Request::is(str_replace(url().'/', '', $this->getUrl()));
+        return Request::is(str_replace(url('/').'/', '', $this->getUrl()));
     }
 
     /**
