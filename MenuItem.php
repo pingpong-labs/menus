@@ -353,7 +353,7 @@ class MenuItem implements ArrayableContract
      */
     public function getAttributes()
     {
-        $attributes = $this->attributes;
+        $attributes = $this->attributes ? $this->attributes : [];
 
         array_forget($attributes, ['active', 'icon']);
 
