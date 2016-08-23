@@ -558,6 +558,7 @@ class MenuItem implements ArrayableContract
      */
     public function order($order)
     {
+        $this->properties['order'] = $order;
         $this->order = $order;
 
         return $this;
