@@ -18,9 +18,9 @@
   ],
   "require": {
     "php": ">=5.5.9",
-    "illuminate/support": "5.2.*",
-    "illuminate/config": "5.2.*",
-    "illuminate/view": "5.2.*",
+    "illuminate/support": "5.3.*",
+    "illuminate/config": "5.3.*",
+    "illuminate/view": "5.3.*",
     "laravelcollective/html": "~5.0"
   },
   "require-dev": {
