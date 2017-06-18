@@ -18,10 +18,10 @@
   ],
   "require": {
     "php": ">=5.5.9",
-    "illuminate/support": "5.2.*",
-    "illuminate/config": "5.2.*",
-    "illuminate/view": "5.2.*",
-    "laravelcollective/html": "~5.0"
+    "illuminate/support": "^5.1|^5.4",
+    "illuminate/config": "^5.1|^5.4",
+    "illuminate/view": "^5.1|^5.4",
+    "laravelcollective/html": "^5.4"
   },
   "require-dev": {
     "phpunit/phpunit": "~4",
