@@ -1,5 +1,5 @@
 {
-  "name": "pingpong/menus",
+  "name": "alexralbino/menus",
   "description": "Laravel Menus",
   "keywords": [
     "laravel",
@@ -17,11 +17,7 @@
     }
   ],
   "require": {
-    "php": ">=5.5.9",
-    "illuminate/support": "5.2.*",
-    "illuminate/config": "5.2.*",
-    "illuminate/view": "5.2.*",
-    "laravelcollective/html": "~5.0"
+    "php": ">=7.2"
   },
   "require-dev": {
     "phpunit/phpunit": "~4",
