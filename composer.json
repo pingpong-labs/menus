@@ -9,7 +9,7 @@
     "nav",
     "bootstrap"
   ],
-  "license": "BSD-3-Clause",
+  "license": "MIT",
   "authors": [
     {
       "name": "Pingpong Labs",
@@ -27,6 +27,5 @@
     "psr-4": {
       "Pingpong\\Menus\\": ""
     }
-  },
-  "minimum-stability": "stable"
+  }
 }
